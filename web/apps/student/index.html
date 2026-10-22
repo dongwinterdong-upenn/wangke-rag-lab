@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- viewport-fit=cover 配合 env(safe-area-inset-bottom)：底部导航条在
+         全面屏手机上不会被系统手势条压住。maximum-scale 不设上限，
+         把用户的缩放能力关掉是无障碍上的硬伤，而这门课的学员年龄偏大。 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <!-- 浏览器地址栏底色跟着页面走。留着旧的靛蓝会在手机上顶出一条
+         和页面无关的蓝带 —— 那是全站唯一一处还没换掉品牌色的地方，
+         而它恰好是打开网站时最先看到的一条。 -->
+    <meta name="theme-color" content="#FAF7F2" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>学习中心 · 网课平台</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

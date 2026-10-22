@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="theme-color" content="#FAF7F2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
+    <title>代理后台 · 网课平台</title>
+    <!-- 这一端不该进搜索结果：登录页在表单之前就画出招商信息，
+         而爬虫会执行 JS。noindex 不是权限，真正的口径守在服务端，
+         但没有理由让它主动进索引。 -->
+    <meta name="robots" content="noindex,nofollow" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

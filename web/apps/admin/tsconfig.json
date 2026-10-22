@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "types": ["vite/client"],
+    "paths": {
+      "@wangke/shared/tokens.css": ["../../shared/src/tokens.css"],
+      "@wangke/shared/ui": ["../../shared/src/ui.tsx"],
+      "@wangke/shared/icons": ["../../shared/src/icons.tsx"],
+      "@wangke/shared/api": ["../../shared/src/api.ts"],
+      "@wangke/shared/csv": ["../../shared/src/csv.ts"],
+      "@wangke/shared/shell": ["../../shared/src/AppShell.tsx"],
+      "@wangke/shared/auth-frame": ["../../shared/src/AuthFrame.tsx"],
+      "@wangke/shared/force-password": ["../../shared/src/ForcePasswordChange.tsx"],
+      "@wangke/shared/Markdown": ["../../shared/src/Markdown.tsx"],
+      "@wangke/shared": ["../../shared/src/index.ts"]
+    }
+  },
+  "include": ["src", "vite.config.ts"]
+}

@@ -1,0 +1,132 @@
+### 网课平台配置
+###
+### 所有秘钥都从环境变量读，且【没有默认值】—— 配置没填时启动即失败。
+### 这是有意的：给个默认值会让服务在凭据缺失时照常起来，然后在真实流量上
+### 用一把假密钥签发令牌、用空 appId 发起支付。那种故障要等到用户投诉才发现。
+###
+### 运行时凭据在 /etc/wangke.env（600 root），由 systemd EnvironmentFile 注入，
+### 绝不进版本库。本地调试用 `set -a; . /etc/wangke.env; set +a` 后再启动。
+
+server:
+  port: ${WANGKE_PORT:8801}
+  # 回调与真实 IP：nginx 在前，不信 X-Forwarded-For 就拿不到学员真实 IP，
+  # 而风控的不可能旅行、令牌的网段绑定全靠它。
+  forward-headers-strategy: native
+
+spring:
+  application:
+    name: wangke
+  datasource:
+    url: ${WANGKE_DB_URL}
+    username: ${WANGKE_DB_USER}
+    password: ${WANGKE_DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 20
+      pool-name: wangke-pool
+  jackson:
+    default-property-inclusion: non_null
+    time-zone: Asia/Shanghai
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+
+wangke:
+  secrets:
+    code-vault-key: ${WANGKE_CODE_VAULT_KEY}     # 激活码 AES-256-GCM 密钥（base64，32 字节）
+    code-hash-salt: ${WANGKE_CODE_HASH_SALT}
+    play-hmac-secret: ${WANGKE_PLAY_HMAC_SECRET}
+    jwt-secret: ${WANGKE_JWT_SECRET}
+    # 每讲 AES-128 内容密钥的封装钥（base64，32 字节）。与 code-vault-key 必须不同：
+    # 一把钥匙同时管激活码和片源，任何一处泄漏就是全部泄漏。
+    content-kek: ${WANGKE_CONTENT_KEK}
+  jwt:
+    ttl-minutes: 720          # 12 小时。学员一次学习会话不该被迫重登
+    issuer: wangke
+  sms:
+    access-key-id: ${ALIYUN_ACCESS_KEY_ID}
+    access-key-secret: ${ALIYUN_ACCESS_KEY_SECRET}
+    region: ${ALIYUN_SMS_REGION:cn-hangzhou}
+    sign-name: ${ALIYUN_SMS_SIGN_NAME}
+    template-login: ${ALIYUN_SMS_TEMPLATE_LOGIN}
+    template-register: ${ALIYUN_SMS_TEMPLATE_REGISTER}
+    template-reset: ${ALIYUN_SMS_TEMPLATE_RESET}
+    template-bind: ${ALIYUN_SMS_TEMPLATE_BIND:${ALIYUN_SMS_TEMPLATE_GENERAL}}
+    # 三层限流缺一不可：只有冷却挡不住换号轰炸，只有日限挡不住一分钟内连点
+    cooldown-seconds: 60
+    per-phone-daily: 10
+    global-daily: 200
+    code-ttl-seconds: 300
+    max-attempts: 5           # 6 位码 100 万种，5 次撞不开；撞满即整条作废
+  alipay:
+    app-id: ${ALIPAY_APP_ID}
+    # 商户 PID（2088 开头）。回调里的 seller_id 必须跟它逐字相等 ——
+    # 不比对的话，任何人用自己的支付宝账号收 1 分钱都能伪造出一笔"已支付"。
+    seller-id: ${ALIPAY_SELLER_ID}
+    private-key: ${ALIPAY_PRIVATE_KEY}
+    public-key: ${ALIPAY_PUBLIC_KEY}
+    gateway: ${ALIPAY_GATEWAY:https://openapi.alipay.com/gateway.do}
+    notify-url: ${ALIPAY_NOTIFY_URL}
+    return-url: ${ALIPAY_RETURN_URL:}
+  play:
+    token-ttl-seconds: 90     # 短时效：即使令牌泄漏，窗口也只有一分半
+    # 分片分发前缀，不带结尾斜杠。
+    #
+    # ★ 2026-08-21 起它必须指向【要鉴权的那条路】（.../api/play/seg），
+    #   不能再指向 nginx 直出的 /vod —— 后者零凭据零日志，一条 curl 就能把整讲
+    #   密文拉走，而且能把自己的水印码字抹平（改 _b 为 _a），抹平之后取证不报错、
+    #   只是谁都指认不到。详见 SegmentToken 的类注释。
+    cdn-base: ${WANGKE_PLAY_CDN_BASE}
+    # 取片凭据有效期。要盖得住一次完整观看（最长的一讲三个多小时，中途还会暂停），
+    # 过期后播放器 403 → 前端提示重开本讲，是自愈的。
+    segment-ttl-seconds: ${WANGKE_PLAY_SEGMENT_TTL_SECONDS:21600}
+    # 校验在 Java、发文件在 nginx 的 sendfile 上。关掉只用于本地调试（且不支持 Range）。
+    use-x-accel: ${WANGKE_PLAY_USE_X_ACCEL:true}
+    vod-internal-prefix: ${WANGKE_PLAY_VOD_INTERNAL_PREFIX:/vod}
+    vod-root: ${WANGKE_PLAY_VOD_ROOT:}
+    # 取片速率闸：认 user_id + 讲次，不认 IP（一个宿舍出口后面十个学员共用一个 IP）。
+    # 越界是限速不是封禁 —— 被拒的请求不计入窗口，窗口会自然老化。
+    pace-window-seconds: ${WANGKE_PLAY_PACE_WINDOW_SECONDS:180}
+    pace-max-rate: ${WANGKE_PLAY_PACE_MAX_RATE:8.0}
+    pace-min-samples: ${WANGKE_PLAY_PACE_MIN_SAMPLES:60}
+  course:
+    default-course-id: 1
+  deepseek:
+    # 测评报告的叙述层。★ 这是全表唯一一个【允许为空】的凭据：
+    # 空 = 这套环境没有报告功能，报告直接置 FAILED 并写明理由，
+    # 绝不降级成模板文案（套话与真报告长得一样，学员分不出来，日后也查不出哪几份是假的）。
+    # 生产由 /etc/wangke.env 的 WANGKE_DEEPSEEK_API_KEY 注入，绝不进版本库。
+    api-key: ${WANGKE_DEEPSEEK_API_KEY:}
+    base-url: ${WANGKE_DEEPSEEK_BASE_URL:https://api.deepseek.com}
+    # 实测在售的是 v4-flash / v4-pro / v4-flash-vision-exp。
+    model: ${WANGKE_DEEPSEEK_MODEL:deepseek-v4-flash}
+    # ★ 不许调到 2600 以下（AppConfig 启动期拦）：这个模型默认开思考，
+    #   额度给小了正文会被草稿吃光 —— 回包 content 为空、finish_reason=length，
+    #   表现是"每一份报告都生成失败"，而理由指向模型不指向这一行配置。
+    max-tokens: ${WANGKE_DEEPSEEK_MAX_TOKENS:3000}
+    # 真实一次：事实清单 3.7 千字 → 1844 completion token、耗时 19.3 秒。
+    timeout-seconds: ${WANGKE_DEEPSEEK_TIMEOUT_SECONDS:120}
+  report:
+    # 报告清扫：把卡在 RUNNING 的行退回队列，并捡起库里排队的。
+    # 入队那一下丢给的是【本进程】的线程池，进程一重启那些任务就没了，
+    # 而库里的行还停在 QUEUED —— 这一轮扫描是多实例与重启之后唯一的兜底。
+    sweep-interval-ms: ${WANGKE_REPORT_SWEEP_INTERVAL_MS:60000}
+    sweep-initial-delay-ms: ${WANGKE_REPORT_SWEEP_INITIAL_DELAY_MS:30000}
+  qa:
+    # 懂妈：课程答疑助手，跑在本机回环的 sidecar 上（它自己只绑 127.0.0.1）。
+    # 人设与全部课程知识点在 /opt/dongma/workspace 的三个 markdown 里，那是唯一定义处。
+    #
+    # token 不配 = 这套环境没有懂妈，行为退回接她之前（问答库没命中就转人工）。
+    # 本地开发和集成测试都不该为了一个可选依赖起不来 —— 但也绝不能带着空令牌去调，
+    # 那会变成每次提问都超时 60 秒然后转人工，看起来像懂妈很慢，其实她根本没被配上。
+    dongma-base: ${DONGMA_API_BASE:http://127.0.0.1:18790}
+    dongma-token: ${DONGMA_API_TOKEN:}
+    dongma-timeout-seconds: 60
+
+logging:
+  level:
+    root: INFO
+    tech.dragonai.wangke: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n"

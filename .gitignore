@@ -1,0 +1,18 @@
+# 本机环境文件，里面有 DeepSeek 密钥，绝不进版本库。
+.env
+# 构建产物与依赖
+target/
+node_modules/
+dist/
+*.tsbuildinfo
+*.class
+# Python
+__pycache__/
+*.pyc
+.venv/
+# 编辑器
+.idea/
+*.iml
+.vscode/
+.DS_Store
+*.log

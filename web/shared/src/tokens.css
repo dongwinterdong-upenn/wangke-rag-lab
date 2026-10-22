@@ -1,0 +1,755 @@
+/* =============================================================================
+   网课平台 · 视觉底座
+   —— 烛龙智元 DragonAI Design System v2.1 落地版
+   =============================================================================
+
+   这一版把平台从「通用靛蓝 SaaS 皮肤」换成了品牌本体。三条硬线来自 DS：
+
+     70% 暖白纸 · 20% 龙红 · 5% 焰橙 · 5% 墨
+     直角优先（圆角 2–4px，12px+ 的软圆角读起来是消费级玩具感）
+     红只用在「决定什么的那一处」—— 每屏一个红锚点，多了就都不是锚点了
+
+   ## 为什么保留原来的变量名
+
+   这个仓里一万两千行 TSX 全是内联样式，颜色间距一律走 var(--...)。
+   保留 --brand / --ink / --s4 这些名字、只换取值，等于一次改动重刷三端全部页面；
+   要是改名，就得逐行改一万两千行，而漏掉的那几行会以「一块地方还是旧蓝色」
+   的形式活到线上，且不会有任何报错。
+
+   同时把 DS 的原生令牌（--da-*）也铺进来，新代码可以直接照着 DS 文档写。
+
+   ## 字体：为什么自托管而不是 Google Fonts
+
+   DS 的起手式是 `<link href="https://fonts.googleapis.com/...">`。
+   这在这个项目里是**不能用**的：学员、代理、运营全在境内，
+   fonts.googleapis.com 在境内不通 —— 表现不是「字体退化」而是
+   **一个卡住的阻塞请求**，首屏白屏好几秒才超时。
+
+   所以三支字面全部自托管，从我们自己的域名发：
+     · Inter（拉丁）        400/600，各 ~24KB
+     · JetBrains Mono（拉丁）400/500，各 ~21KB —— 金额、单号、验证码全靠它对齐
+     · 思源宋体 SC Bold     子集化，仅 1474 字（全仓中文字面 + 标点），265KB
+
+   宋体那 265KB 是这次唯一一笔大开销，值不值得单说：它是品牌里除红色之外
+   最强的一个信号，而且只画标题。用 font-display:swap 挂着 ——
+   字没到之前先用系统衬线（苹方那边是宋体 SC，Windows 是宋体，安卓是 Noto Serif CJK），
+   **退化后仍然是衬线**，不会出现半页宋体半页黑体那种花脸。
+   子集之外的字（比如动态的课程名）同理落到系统衬线，所以正文一律不用衬线，
+   衬线只给我自己写死的标题用。
+   ========================================================================== */
+
+/* ---- 自托管字面 --------------------------------------------------------- */
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/inter-latin-400-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+                 U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC,
+                 U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/inter-latin-600-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+                 U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC,
+                 U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/jetbrains-mono-latin-400-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+                 U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC,
+                 U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/jetbrains-mono-latin-500-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+                 U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC,
+                 U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* 宋体只有一档（Bold）。DS 里衬线只出现在 display/H1，且一律重量级，
+   多带一档 Regular 就是白白多 200KB。 */
+@font-face {
+  font-family: 'Noto Serif SC Subset';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/NotoSerifSC-Bold-subset.woff2') format('woff2');
+}
+
+:root {
+  /* =========================================================================
+     DS 原生令牌 —— 与 colors_and_type.css 逐值对齐，新代码直接用
+     ====================================================================== */
+
+  /* 龙红 */
+  --da-red-950: #3D0807;
+  --da-red-900: #5C0F0C;
+  --da-red-800: #7A1714;
+  --da-red-700: #8B1A1A;
+  --da-red-600: #A8201A;      /* 品牌红本体 */
+  --da-red-500: #C0241D;
+  --da-red-400: #D24A3F;
+  --da-red-300: #E58A82;
+  --da-red-200: #F0BAB5;
+  --da-red-100: #F4DCDA;
+  --da-red-050: #FBEFEE;
+
+  /* 焰橙 —— 只给「动」：悬停、激活、进度、正在发生的事 */
+  --da-orange-700: #C73E10;
+  --da-orange-600: #E94E1B;
+  --da-orange-500: #F26A1E;
+  --da-orange-400: #F39200;
+  --da-orange-300: #F8B05A;
+  --da-orange-100: #FCE7D6;
+
+  /* 暖纸中性 */
+  --da-bg:     #FAF7F2;
+  --da-bg-2:   #F3EEE6;
+  --da-bg-3:   #EAE3D8;
+  --da-bg-4:   #DDD4C4;
+  --da-paper:  #FFFFFF;
+  --da-vellum: #FCFAF5;
+
+  --da-ink:   #161614;
+  --da-ink-1: #2B2B2B;
+  --da-ink-2: #5C5C5C;
+  --da-ink-3: #8A8580;
+  --da-ink-4: #BFB9B0;
+  --da-ink-5: #E4DED3;
+
+  --da-line:        #E4DED3;
+  --da-line-2:      #D4CCBE;
+  --da-line-strong: #2B2B2B;
+  --da-line-red:    rgba(168, 32, 26, .32);
+
+  --da-font-serif: 'Noto Serif SC Subset', 'Noto Serif SC', 'Source Han Serif SC',
+                   'Songti SC', 'STSong', 'SimSun', serif;
+  --da-font-sans:  'Inter', 'Noto Sans SC', 'Source Han Sans SC', -apple-system,
+                   BlinkMacSystemFont, 'PingFang SC', 'HarmonyOS Sans SC',
+                   'Microsoft YaHei', system-ui, sans-serif;
+  --da-font-han:   var(--da-font-sans);
+  --da-font-mono:  'JetBrains Mono', 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+
+  --da-track-overline: .22em;
+  --da-track-mono: .06em;
+  --da-track-tight: -.024em;
+
+  --da-ease-sharp:    cubic-bezier(.2, 0, 0, 1);
+  --da-ease-standard: cubic-bezier(.4, 0, .2, 1);
+  --da-dur-fast: 120ms;
+  --da-dur-base: 200ms;
+  --da-dur-slow: 360ms;
+
+  --da-grid-line: rgba(43, 43, 43, .05);
+  --da-grid:
+    linear-gradient(to right,  var(--da-grid-line) 1px, transparent 1px) 0 0 / 32px 32px,
+    linear-gradient(to bottom, var(--da-grid-line) 1px, transparent 1px) 0 0 / 32px 32px,
+    var(--da-bg);
+  --da-grid-warm:
+    linear-gradient(to right,  var(--da-grid-line) 1px, transparent 1px) 0 0 / 32px 32px,
+    linear-gradient(to bottom, var(--da-grid-line) 1px, transparent 1px) 0 0 / 32px 32px,
+    radial-gradient(1000px 500px at 88% -10%, rgba(168, 32, 26, .08), transparent 60%),
+    var(--da-bg);
+  --da-hatch: repeating-linear-gradient(135deg, transparent 0 6px,
+              rgba(168, 32, 26, .10) 6px 7px);
+
+  /* =========================================================================
+     应用别名 —— 一万两千行内联样式全部经由这一段取值
+     ====================================================================== */
+
+  /* ---- 墨与纸 ---------------------------------------------------------- */
+  --ink-0:        var(--da-ink);      /* 标题用的更深一档 */
+  --ink:          var(--da-ink-1);
+  --ink-2:        var(--da-ink-2);
+
+  /* ★ 这一档【没有】直接用 DS 的 --da-ink-3（#8A8580），压深到 #726C63。
+     实测对比度：#8A8580 落在暖纸底上只有 3.42:1，低于 WCAG AA 的 4.5，
+     而这一档在这个平台里承担的是提示语、字段说明、空态正文 ——
+     全是"看不清就会做错事"的文字，不是装饰。#726C63 是 4.86:1，
+     色相与冷暖和 DS 的中性阶完全一致，只是把亮度往回收了一档。
+     （对照：ink 13.3 · ink-2 6.3 · 龙红 6.8 · 焰橙 4.8，全部达标。） */
+  --ink-3:        #726C63;
+  --ink-4:        var(--da-ink-4);
+
+  --paper:        var(--da-bg);
+  --surface:      var(--da-paper);
+  --surface-2:    var(--da-bg-2);
+  --surface-3:    var(--da-bg-3);
+
+  --line:         var(--da-line);
+  --line-strong:  var(--da-line-2);
+  --line-ink:     var(--da-ink-1);    /* 需要被当成结构看的实线（表头下沿） */
+
+  /* ---- 主色 ------------------------------------------------------------ */
+  --brand:        var(--da-red-600);
+  --brand-press:  var(--da-red-700);
+  --brand-soft:   var(--da-red-050);
+  --brand-line:   var(--da-line-red);
+
+  /* 强调色取深一档的焰橙（#C73E10）而不是 DS 那支最亮的 #E94E1B。
+     理由是这里的用法和 DS 原设不同：DS 把橙留给「动」（悬停、箭头、下划线），
+     这个平台还拿它做「本页唯一那个动作」的实心按钮。
+     最亮那支做成整块实心，在暖纸底上会盖过旁边的龙红 ——
+     而龙红才是品牌。深一档之后它仍然是橙，但站在红的旁边不抢。 */
+  --accent:       var(--da-orange-700);
+  --accent-press: #A6330D;
+  --accent-soft:  var(--da-orange-100);
+
+  /* ---- 语义：DS 的答案是「点 + 字重 + 线」，不是一排彩色药丸 --------------
+     后台一屏两百行，全用彩色药丸的结果是满屏彩虹、什么都不显眼。
+     这里只保留三个可辨状态 + 一个中性：
+       正常 → 墨      待办 → 橙      异常 → 红      其它 → 灰
+     绿色被拿掉了：它不在这套调色板里，一出现就像是别家系统的组件混了进来。 */
+  --ok:           var(--da-ink-1);
+  --ok-soft:      var(--da-bg-2);
+  --warn:         var(--da-orange-700);
+  --warn-soft:    var(--da-orange-100);
+  --danger:       var(--da-red-600);
+  --danger-soft:  var(--da-red-050);
+
+  /* ---- 字 -------------------------------------------------------------- */
+  --font:       var(--da-font-sans);
+  --font-serif: var(--da-font-serif);
+  --font-num:   var(--da-font-mono);
+
+  /* DS 的营销字阶（display 112px）是给单页版面用的，塞不进应用界面。
+     这里用的是 DS 的 UI + 密度两档：标题拉开、正文守住、小字不越过 11px 地板。 */
+  --t-display: clamp(28px, 4.6vw, 40px);
+  --t-h1:      25px;
+  --t-h2:      19px;
+  --t-h3:      16px;
+  --t-body:    15px;
+  --t-sm:      13px;
+  --t-xs:      11.5px;    /* 汉字下限。DS 密度法则：han ≥ 11px */
+  --t-mono-xs: 10px;      /* 单等宽可以更小。DS：mono ≥ 9px */
+
+  --lh-tight: 1.2;
+  --lh-snug:  1.35;
+  --lh-body:  1.68;
+
+  /* ---- 间距（8pt + 4pt 半步，同 DS） ------------------------------------ */
+  --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px;
+  --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px;
+
+  /* ---- 圆角：直角优先 ---------------------------------------------------
+     DS 明文禁止 12px+ 的软圆角。原来这里是 6/10/14，整套读起来是消费级 App，
+     和「东方力量 · 锋利克制」正好相反。 */
+  --r-sm:   0px;
+  --r-md:   2px;
+  --r-lg:   3px;
+  --r-full: 999px;   /* 只给状态点与头像 */
+
+  /* ---- 投影：几乎不用，结构靠发丝线 -------------------------------------- */
+  --shadow-1: 0 1px 0 rgba(43, 43, 43, .04);
+  --shadow-2: 0 2px 4px rgba(43, 43, 43, .06), 0 8px 24px -8px rgba(43, 43, 43, .10);
+  --shadow-3: 0 12px 32px -12px rgba(92, 15, 12, .18);
+  --shadow-red: 0 6px 18px -8px rgba(168, 32, 26, .50);
+
+  /* ---- 动效：DS 的 sharp ease —— 快进、硬停，不回弹 ---------------------- */
+  --ease:      var(--da-ease-sharp);
+  --dur:       140ms;                  /* 悬停这类微交互 */
+  --dur-base:  var(--da-dur-base);     /* 面板、展开 */
+  --dur-slow:  var(--da-dur-slow);     /* 抽屉、页面切换 */
+
+  --z-header: 100;
+  --z-drawer: 200;
+  --z-modal:  300;
+  --z-toast:  400;
+
+  /* ---- 密度与版心 ------------------------------------------------------- */
+  --row-h:    40px;
+  --pad-card: var(--s5);
+  --maxw:     1280px;          /* DS 版心 */
+
+  /* 触控最小尺寸。低于 44px 的可点区域在手机上是「点不中」，
+     而这门课的学员年龄偏大，点不中的那一次他不会重试，会打客服电话。 */
+  --tap: 44px;
+
+  --header-h: 56px;
+}
+
+/* 后台密度：运营一天几百行，疏朗在这里是负担。用的是 DS 的 dense 档。 */
+:root[data-density='compact'] {
+  --row-h:    32px;
+  --pad-card: var(--s4);
+  --t-body:   14px;
+  --t-sm:     12.5px;
+  --maxw:     1440px;          /* DS --da-data-max */
+}
+
+/* 播放场景专用深色面。
+   DS 说「品牌不进暗色」——那条规矩针对的是品牌页；视频周围必须压暗，
+   否则亮底会在画面四周形成光晕，看一小时眼睛就废了。
+   压暗时保留暖偏移和红强调，不切成中性灰，免得播放页看起来像另一个产品。 */
+.surface-cinema {
+  --ink-0:       #F7F4EF;
+  --ink:         #EDE9E2;
+  --ink-2:       #B3ACA2;
+  --ink-3:       #857E75;
+  --ink-4:       #5E5850;
+  --paper:       #14120F;
+  --surface:     #1B1815;
+  --surface-2:   #23201C;
+  --surface-3:   #2C2823;
+  --line:        #302B26;
+  --line-strong: #423C35;
+  --line-ink:    #564E45;
+  --brand:       #D24A3F;
+  --brand-soft:  #2A1A18;
+  --brand-line:  rgba(210, 74, 63, .38);
+  --ok:          #C9C2B8;
+  --ok-soft:     #23201C;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+/* =============================================================================
+   复位与基线
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* 手机上永不横向滚：body 一旦能左右拖，每次纵向滑动都会带出横向位移，
+     整页读起来像在晃。宽内容自己在容器里滚。 */
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+  line-height: var(--lh-tight);
+  font-weight: 600;
+  letter-spacing: var(--da-track-tight);
+  color: var(--ink-0);
+}
+p { margin: 0; }
+
+a { color: var(--brand); text-decoration: none; transition: color var(--dur) var(--ease); }
+a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+
+button, input, select, textarea { font: inherit; color: inherit; }
+button { letter-spacing: .02em; }
+
+/* 键盘焦点。DS：2px 焰橙，偏移 2px，永不移除。
+   把焦点圈关掉是最常见的「为了好看」的伤害 —— 只用键盘的人会当场迷路。 */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--r-md);
+}
+
+/* 数字一律等宽：金额、单号、验证码在列上必须对齐。
+   比例字形下 111 比 999 窄一截，一列数字看起来是歪的。 */
+.num {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+  letter-spacing: 0;
+}
+
+::selection { background: var(--da-red-100); color: var(--da-red-900); }
+
+/* 滚动条：暖调、细。默认那条冷灰在纸面上很突兀。 */
+* { scrollbar-width: thin; scrollbar-color: var(--da-bg-4) transparent; }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: var(--da-bg-4); border: 3px solid transparent;
+                             background-clip: content-box; }
+*::-webkit-scrollbar-thumb:hover { background: var(--da-ink-4); background-clip: content-box; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =============================================================================
+   DS 版式原语
+   —— 从 colors_and_type.css 里挑出应用界面真正用得上的那一小撮，
+      名字沿用 da- 前缀，写法与 DS 文档一致，好对照。
+   ========================================================================== */
+
+/* ---- 衬线标题。只给写死的中文标题用；动态内容（课程名、人名）不许用，
+        子集之外的字会掉到系统衬线，一句话里两种字形比全用黑体更难看。 ---- */
+.da-serif {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  letter-spacing: var(--da-track-tight);
+}
+
+/* ---- 单等宽眉标：`◆ AGENT / 02` 这种。DS 的技术层签名元素 ----
+   字距分两档。DS 给的 .22em 是照着**拉丁大写**定的 —— 那个字距下
+   "RUNTIME" 很有秩序感，而中文的"还没发出去的码"会被拆成
+   「还 没 发 出 去 的 码」，读起来像横幅上一个字一个字贴上去的。
+   汉字本身就是等宽的，它不需要额外字距。
+   所以默认给 .08em（中英都读得顺），确定是纯拉丁的地方才加 .en 拿满字距。 */
+.da-overline {
+  font-family: var(--font-num);
+  font-size: var(--t-mono-xs);
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+}
+.da-overline::before {
+  content: '';
+  width: 5px; height: 5px;
+  background: var(--brand);
+  transform: rotate(45deg);
+  flex: none;
+}
+.da-overline.bare::before { display: none; }
+.da-overline.en { letter-spacing: var(--da-track-overline); }
+
+/* ---- 标题上方那道 36×3 红杠。DS 的复现标记，一屏一次 ---- */
+.da-accent-bar {
+  display: block;
+  width: 36px; height: 3px;
+  background: var(--brand);
+  margin-bottom: var(--s3);
+}
+.da-accent-bar.long  { width: 64px; }
+.da-accent-bar.short { width: 24px; }
+
+/* ---- 角标三角。卡片上的品牌记号，一版面一次 ---- */
+.da-facet {
+  position: absolute; top: 0; right: 0;
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 0 22px 22px 0;
+  border-color: transparent var(--brand) transparent transparent;
+  pointer-events: none;
+}
+
+/* ---- 状态点。三态 + 中性，替掉原来那一排彩色药丸 ---- */
+.da-sdot {
+  width: 7px; height: 7px; border-radius: 50%;
+  display: inline-block; flex: none;
+  background: var(--ink-3);
+}
+.da-sdot.ok   { background: var(--ink); }
+.da-sdot.warn { background: var(--da-orange-600); }
+.da-sdot.down { background: var(--brand); }
+.da-sdot.idle { background: transparent; box-shadow: inset 0 0 0 1.5px var(--ink-4); }
+/* 空心红环：「在途、值得注意，但不是问题」。
+   一级代理、已付款、打款中这类状态在后台里出现得极多，
+   给实心红就等于满屏告警，而给灰又和「没什么事」混在一起。 */
+.da-sdot.mid  { background: transparent; box-shadow: inset 0 0 0 1.5px var(--brand); }
+
+/* ---- 现场信号：正在发生的事（打款中、上传中）。脉冲，不用转圈 ---- */
+.da-live {
+  position: relative;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--brand); flex: none; display: inline-block;
+}
+.da-live::after {
+  content: ''; position: absolute; inset: -3px;
+  border-radius: 50%; border: 1px solid var(--brand);
+  animation: da-pulse 1.8s var(--ease) infinite;
+}
+
+/* ---- 遥测刻度线。DS 技术层：一条 1px 线，在 00/25/50/75 打硬记号 ---- */
+.da-tickrule {
+  height: 1px; background: var(--line);
+  position: relative; margin: var(--s4) 0;
+}
+.da-tickrule::before,
+.da-tickrule::after {
+  content: ''; position: absolute; top: -3px;
+  width: 1px; height: 7px; background: var(--brand);
+}
+.da-tickrule::before { left: 0; }
+.da-tickrule::after  { left: 56px; }
+
+/* ---- 暖网格底板。登录页、空态、播放页周边这类要「有质感的空」的地方 ---- */
+.da-gridbg      { background: var(--da-grid); }
+.da-gridbg-warm { background: var(--da-grid-warm); }
+.da-hatchbg     { background-image: var(--da-hatch); }
+
+/* ---- 角括号。框住关键数据 ---- */
+.da-bracket { position: relative; }
+.da-bracket::before,
+.da-bracket::after {
+  content: ''; position: absolute;
+  width: 10px; height: 10px;
+  border: 1.5px solid var(--brand);
+  pointer-events: none;
+}
+.da-bracket::before { top: -5px;    left: -5px;  border-right: 0; border-bottom: 0; }
+.da-bracket::after  { bottom: -5px; right: -5px; border-left: 0;  border-top: 0; }
+
+@keyframes da-pulse {
+  0%   { transform: scale(1);   opacity: .9; }
+  70%  { transform: scale(2.4); opacity: 0; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* =============================================================================
+   交互态：统一在这里，页面里不再各写一份 onMouseEnter
+   —— 原来悬停/按下全靠 React 的 onMouseEnter 改 style，
+      触屏上 onMouseEnter 会「粘住」：手指点过的那一行会一直保持悬停色，
+      直到点了别处为止。CSS 的 :hover 在触屏上由浏览器负责消抖，行为对得多。
+   ========================================================================== */
+
+.wk-btn {
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--s2);
+  font-family: var(--font);
+  font-weight: 500;
+  letter-spacing: .04em;
+  border-radius: var(--r-md);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease),
+              border-color var(--dur) var(--ease), transform var(--da-dur-fast) var(--ease),
+              box-shadow var(--dur) var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+/* DS：按下是下移 1px，不是缩放。缩放会让按钮上的字一起糊一下 */
+.wk-btn:active:not(:disabled) { transform: translateY(1px); }
+.wk-btn:disabled { cursor: not-allowed; }
+
+/* 禁用态换成中性色，不用 opacity。
+   红底按 42% 透明度压在暖纸上得到的是一块**粉色** —— 那既不像"不能点"，
+   也已经不是品牌红了；而且它比周围任何东西都更抢眼，
+   于是整页最显眼的一处正好是唯一点不动的地方。 */
+.wk-btn-primary:disabled,
+.wk-btn-accent:disabled {
+  background: var(--da-bg-3); border-color: var(--da-bg-3);
+  /* 不用 ink-4：那是 1.5:1，禁用按钮上的字直接糊成一片。
+     禁用态在 WCAG 里是豁免的，但"看不清按钮上写着什么"和"知道它现在不能点"
+     是两回事 —— 用户要先读懂它才知道自己缺了什么。 */
+  color: var(--ink-3); box-shadow: none;
+}
+.wk-btn-ghost:disabled,
+.wk-btn-danger:disabled { background: transparent; color: var(--ink-4); border-color: var(--line); }
+.wk-btn-quiet:disabled  { color: var(--ink-4); }
+
+/* 但"正在提交"不是"不能点"：它照样要保持主色，否则用户以为自己点失败了 */
+.wk-btn[data-busy]:disabled { color: var(--da-bg); opacity: .78; }
+.wk-btn-primary[data-busy]:disabled { background: var(--brand); border-color: var(--brand); }
+.wk-btn-accent[data-busy]:disabled  { background: var(--accent); border-color: var(--accent); }
+.wk-btn-ghost[data-busy]:disabled,
+.wk-btn-danger[data-busy]:disabled,
+.wk-btn-quiet[data-busy]:disabled   { color: var(--ink-2); border-color: var(--line-strong); }
+
+.wk-btn-primary  { background: var(--brand); color: var(--da-bg); border: 1px solid var(--brand);
+                   box-shadow: var(--shadow-red); }
+.wk-btn-primary:hover:not(:disabled)  { background: var(--brand-press); border-color: var(--brand-press); }
+.wk-btn-accent   { background: var(--accent); color: var(--da-bg); border: 1px solid var(--accent); }
+.wk-btn-accent:hover:not(:disabled)   { background: var(--accent-press); border-color: var(--accent-press); }
+.wk-btn-ghost    { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+.wk-btn-ghost:hover:not(:disabled)    { background: var(--brand-soft); border-color: var(--brand);
+                                        color: var(--brand); }
+.wk-btn-quiet    { background: transparent; color: var(--ink-2); border: 1px solid transparent; }
+.wk-btn-quiet:hover:not(:disabled)    { background: var(--brand-soft); color: var(--brand); }
+.wk-btn-danger   { background: var(--surface); color: var(--brand); border: 1px solid var(--brand); }
+.wk-btn-danger:hover:not(:disabled)   { background: var(--brand); color: var(--da-bg); }
+
+/* 表格行：CSS 悬停，触屏不粘 */
+.wk-row { transition: background var(--da-dur-fast) var(--ease); }
+.wk-row:hover { background: var(--da-vellum); }
+.wk-row.clickable { cursor: pointer; }
+.wk-row.clickable:hover { background: var(--brand-soft); }
+
+/* 卡片可点：抬边不抬影 */
+.wk-liftable { transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease); }
+.wk-liftable:hover { border-color: var(--da-line-2); box-shadow: var(--shadow-2); }
+
+/* 输入：DS 的下划线式表单（no boxes）。
+   聚焦时下沿变红加粗 —— 比整框变色更省颜色预算，且在一排字段里更容易定位到「我在填哪个」。 */
+.wk-input {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1.5px solid var(--line-strong);
+  border-radius: 0;
+  padding: 9px 2px;
+  outline: none;
+  color: var(--ink);
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  font-size: var(--t-body);
+}
+/* 占位符三件事：
+   ① 用 ink-3 而不是 ink-4 —— ink-4 在纸底上只有 1.8:1，而占位符是**文字**，
+      不在 WCAG 对禁用控件的那条豁免里；
+   ② opacity 显式写 1 —— Firefox 给 ::placeholder 的默认值是 0.54，不覆盖的话
+      它会把刚调好的 4.9:1 冲淡回 2.6:1，而且只在 Firefox 上这样；
+   ③ 不跟着字距走 —— 验证码框为了对齐数字设了 .24em，
+      "6 位数字"这四个汉字被撑开之后读起来像一句被拉长的错别字。 */
+.wk-input::placeholder { color: var(--ink-3); opacity: 1; letter-spacing: normal; }
+.wk-input:hover:not(:disabled):not(:focus) { border-bottom-color: var(--da-ink-3); }
+.wk-input:focus {
+  border-bottom-color: var(--brand);
+  box-shadow: 0 1.5px 0 0 var(--brand);   /* 等效 2px 下沿，但不引起 1px 跳动 */
+}
+.wk-input[aria-invalid='true'] { border-bottom-color: var(--brand); }
+.wk-input:disabled { color: var(--ink-3); background: var(--surface-2); cursor: not-allowed; }
+/* 下拉必须留出箭头位，且不能沿用系统外观（各平台差得太远） */
+select.wk-input {
+  appearance: none;
+  padding-right: 22px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--ink-2) 50%),
+    linear-gradient(135deg, var(--ink-2) 50%, transparent 50%);
+  background-position: right 9px center, right 4px center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
+/* 导航项：左侧红针，不是整块底色 */
+.wk-navitem {
+  position: relative;
+  display: flex; align-items: center; gap: var(--s3);
+  padding: 10px 12px 10px 14px;
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: color var(--dur) var(--ease), background var(--dur) var(--ease),
+              border-color var(--dur) var(--ease);
+  min-height: 38px;
+}
+.wk-navitem:hover { background: var(--brand-soft); color: var(--ink); text-decoration: none; }
+.wk-navitem.on {
+  color: var(--brand);
+  font-weight: 600;
+  border-left-color: var(--brand);
+  background: var(--brand-soft);
+}
+
+/* =============================================================================
+   移动端
+   —— 三端都要能在手机上用完：学员是主场景，代理商在微信里发码，
+      运营在路上审一单。断点取 860（平板竖屏也走窄版）。
+   ========================================================================== */
+
+.wk-hide-mobile { }
+.wk-only-mobile { display: none !important; }
+
+@media (max-width: 860px) {
+  :root {
+    --pad-card: var(--s4);
+    --header-h: 52px;
+  }
+  /* 后台在手机上不再用紧凑密度：紧凑是给鼠标和大屏的，
+     32px 行高在手指上等于点不中 */
+  :root[data-density='compact'] {
+    --row-h: 40px;
+    --t-body: 15px;
+    --t-sm: 13px;
+    --pad-card: var(--s4);
+  }
+  .wk-hide-mobile { display: none !important; }
+  .wk-only-mobile { display: revert !important; }
+
+  /* 手机上标题不要那么大：25px 的 H1 在 375 宽里会占掉两行 */
+  :root { --t-h1: 21px; --t-h2: 17px; }
+
+  /* iOS 上字号 <16px 的输入框，聚焦时 Safari 会自动把整页放大，
+     而放大之后它**不会自己缩回去** —— 用户填完一个字段，页面就永远歪在那里了。
+     后台把筛选框排得很密（TextIn/Pick 用的是 t-sm），在手机上必须抬回 16。
+     用 !important 是有意的：那些字号是内联样式写的，选择器权重赢不了它。 */
+  .wk-input {
+    min-height: 44px;
+    font-size: max(16px, var(--t-body)) !important;
+  }
+
+  /* React Button 都带 data-variant；Copyable 这类行内小按钮不带，避免被误抬高。 */
+  .wk-btn[data-variant] { min-height: 44px !important; }
+  .wk-navitem { min-height: 48px; padding-block: 12px; }
+  .wk-page-head { margin-bottom: var(--s4) !important; }
+  .wk-page-head .da-accent-bar { margin-bottom: var(--s2); }
+  .wk-page-head > div:first-child > div:last-child { line-height: 1.55 !important; }
+  .wk-card { scroll-margin-top: calc(var(--header-h) + var(--s3)); }
+  a, button { touch-action: manipulation; }
+}
+
+/* 触屏：没有真正的悬停。留着 :hover 会让点过的元素「粘」在悬停态。 */
+@media (hover: none) {
+  .wk-row:hover,
+  .wk-row.clickable:hover { background: transparent; }
+  .wk-liftable:hover { border-color: var(--line); box-shadow: none; }
+  .wk-btn-primary:hover:not(:disabled) { background: var(--brand); }
+  .wk-btn-ghost:hover:not(:disabled) { background: transparent; color: var(--ink);
+                                       border-color: var(--ink); }
+  .wk-btn-quiet:hover:not(:disabled) { background: transparent; color: var(--ink-2); }
+  .wk-btn-danger:hover:not(:disabled) { background: var(--surface); color: var(--brand); }
+  .wk-navitem:hover { background: transparent; color: var(--ink-2); }
+  .wk-navitem.on { color: var(--brand); background: var(--brand-soft); }
+}
+
+
+/* ============================================================ 答疑消息的 Markdown
+   由 shared/Markdown.tsx 产出的类名。放这里而不是组件里的 <style>：
+   三端都可能渲染同一条消息，样式跟着组件走才不会出现「学员端有格式、
+   管理端一片纯文本」这种同一条消息两副长相。
+
+   ★ 尺度刻意压得比正文小一档。这些内容是在【气泡】里读的，不是在文章页：
+   一个按文章比例排的 h1 会把一条聊天记录撑成半屏，反而看不出重点在哪。 */
+.wk-md > *:first-child { margin-top: 0; }
+.wk-md > *:last-child  { margin-bottom: 0; }
+
+.wk-md-p    { margin: 0 0 .55em; }
+.wk-md-h    { font-weight: 600; color: var(--ink-0); margin: 1em 0 .4em; line-height: 1.35; }
+.wk-md-h1   { font-size: 1.12em; }
+.wk-md-h2   { font-size: 1.06em; }
+.wk-md-h3   { font-size: 1em; }
+.wk-md-list { margin: 0 0 .55em; padding-left: 1.35em; }
+.wk-md-list li { margin: .18em 0; }
+.wk-md-hr   { border: 0; border-top: 1px solid var(--line); margin: .8em 0; }
+
+.wk-md-quote {
+  margin: 0 0 .55em; padding: .1em 0 .1em .8em;
+  border-left: 2px solid var(--line-strong); color: var(--ink-2);
+}
+
+.wk-md-code {
+  font-family: var(--font-num); font-size: .92em;
+  background: var(--surface-2); border: 1px solid var(--line);
+  border-radius: var(--r-sm); padding: .05em .35em;
+  /* 长标识符不能把气泡撑破：气泡一宽，整段对话的左右边界就乱了 */
+  overflow-wrap: anywhere;
+}
+.wk-md-pre {
+  margin: 0 0 .55em; padding: var(--s3);
+  background: var(--surface-2); border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  /* 代码在自己这里横向滚，绝不让 body 横向滚 —— 手机上 body 一能左右拖，
+     每一次纵向滑动都会带出一点横向位移，整页读起来像在晃 */
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+}
+.wk-md-pre code {
+  font-family: var(--font-num); font-size: .9em;
+  white-space: pre; color: var(--ink);
+}

@@ -1,0 +1,26 @@
+{
+  "name": "wangke-web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev:student": "pnpm --filter student dev",
+    "build": "APP_BASE=/study/ pnpm --filter student build && APP_BASE=/agent/ pnpm --filter agent build && APP_BASE=/admin/ pnpm --filter admin build",
+    "build:root": "pnpm -r build",
+    "typecheck": "pnpm --filter student typecheck && pnpm --filter agent typecheck && pnpm --filter admin typecheck"
+  },
+  "devDependencies": {
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.0.5",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.1"
+  },
+  "dependencies": {
+    "hls.js": "^1.6.17",
+    "qrcode": "^1.5.4",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.2"
+  }
+}

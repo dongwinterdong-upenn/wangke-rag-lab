@@ -1,0 +1,4 @@
+# 一律用 LF 换行。Windows 上 git 默认把换行改成 CRLF，SQL，配置与脚本在容器里会因此出错。
+* text=auto eol=lf
+*.pdf binary
+*.woff2 binary

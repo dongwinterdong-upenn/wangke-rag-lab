@@ -1,0 +1,108 @@
+# 网课平台本机一键部署。在仓库根目录执行：
+#   cp .env.example .env      然后在 .env 里填 DEEPSEEK_API_KEY
+#   docker compose up -d --build
+# 打开 http://localhost:8080 。详细步骤见 docs/本机部署教程.md。
+name: wangke-lab
+
+services:
+  mysql:
+    restart: unless-stopped
+    image: mysql:8.0
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: wangke
+      MYSQL_USER: wangke
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_0900_ai_ci"]
+    volumes:
+      - mysql-data:/var/lib/mysql
+      # 首次启动按文件名顺序建库：结构，种子，题库，题目元数据，本机开发账号。之后再启动不会重灌。
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/10_schema.sql:ro
+      - ./db/seed.sql:/docker-entrypoint-initdb.d/20_seed.sql:ro
+      - ./db/content/exam/import_questions.sql:/docker-entrypoint-initdb.d/30_questions.sql:ro
+      - ./db/content/exam/backfill_question_meta.sql:/docker-entrypoint-initdb.d/40_question_meta.sql:ro
+      - ./deploy/mysql/90_dev_accounts.sql:/docker-entrypoint-initdb.d/90_dev_accounts.sql:ro
+    ports:
+      - "127.0.0.1:${MYSQL_PORT:-3307}:3306"
+    healthcheck:
+      test: ["CMD-SHELL", "mysql -uwangke -p\"$$MYSQL_PASSWORD\" -e 'SELECT COUNT(*) FROM wangke.question' >/dev/null 2>&1"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+
+  dongma:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: deploy/dongma.Dockerfile
+    environment:
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY}
+      DONGMA_API_TOKEN: ${DONGMA_API_TOKEN}
+    volumes:
+      - ./dongma/workspace:/app/workspace:ro
+    # 只对本机开放，方便评测脚本直接调 /ask。
+    ports:
+      - "127.0.0.1:${DONGMA_PORT:-28790}:18790"
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://127.0.0.1:18790/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  backend:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: deploy/backend.Dockerfile
+    depends_on:
+      mysql:
+        condition: service_healthy
+      dongma:
+        condition: service_started
+    environment:
+      WANGKE_DB_URL: "jdbc:mysql://mysql:3306/wangke?useUnicode=true&characterEncoding=UTF-8&connectionCollation=utf8mb4_0900_ai_ci&serverTimezone=Asia/Shanghai"
+      WANGKE_DB_USER: wangke
+      WANGKE_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WANGKE_CODE_VAULT_KEY: ${WANGKE_CODE_VAULT_KEY}
+      WANGKE_CODE_HASH_SALT: ${WANGKE_CODE_HASH_SALT}
+      WANGKE_PLAY_HMAC_SECRET: ${WANGKE_PLAY_HMAC_SECRET}
+      WANGKE_JWT_SECRET: ${WANGKE_JWT_SECRET}
+      WANGKE_CONTENT_KEK: ${WANGKE_CONTENT_KEK}
+      # 本机没有短信与支付，下面是占位值，只为让后端能启动。依赖它们的注册与下单在本机走不通。
+      ALIYUN_ACCESS_KEY_ID: local-placeholder
+      ALIYUN_ACCESS_KEY_SECRET: local-placeholder
+      ALIYUN_SMS_SIGN_NAME: local-placeholder
+      ALIYUN_SMS_TEMPLATE_LOGIN: local-placeholder
+      ALIYUN_SMS_TEMPLATE_REGISTER: local-placeholder
+      ALIYUN_SMS_TEMPLATE_RESET: local-placeholder
+      ALIYUN_SMS_TEMPLATE_GENERAL: local-placeholder
+      ALIPAY_APP_ID: local-placeholder
+      ALIPAY_SELLER_ID: "2088000000000000"
+      ALIPAY_PRIVATE_KEY: local-placeholder
+      ALIPAY_PUBLIC_KEY: local-placeholder
+      ALIPAY_NOTIFY_URL: http://localhost:8080/api/pay/notify/alipay
+      WANGKE_PLAY_CDN_BASE: http://localhost:8080/api/play/seg
+      # 交卷后的 AI 测评报告与懂妈共用同一把 DeepSeek 密钥。
+      WANGKE_DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY}
+      DONGMA_API_BASE: http://dongma:18790
+      DONGMA_API_TOKEN: ${DONGMA_API_TOKEN}
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/8801 && printf \"GET /api/health HTTP/1.0\\r\\n\\r\\n\" >&3 && grep -q \\\"db\\\":\\\"up\\\" <&3'"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+
+  web:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: deploy/web.Dockerfile
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "${WEB_PORT:-8080}:80"
+
+volumes:
+  mysql-data:

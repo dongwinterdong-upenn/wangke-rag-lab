@@ -1,0 +1,1269 @@
+{
+ "courseId": 1,
+ "segSeconds": 10,
+ "bitLength": 721,
+ "deliveredBits": 641,
+ "undeliveredBits": 80,
+ "lessons": [
+  {
+   "lessonNo": 1,
+   "chapterId": 1,
+   "lid": "L2",
+   "wmBitBase": 0,
+   "wmBitOffset": 0,
+   "wmBitEnd": 44,
+   "title": "第 1 讲 · Web coding 是什么：前端、后端与工具形态",
+   "summary": "从课程大纲讲起，说清前端和后端各管什么、为什么要做全栈，按 F12 拆一遍真实网站的四个面板，再比 IDE 与命令行两种工具形态。",
+   "sortNo": 10,
+   "hlsKey": "fde/l2",
+   "blocks": [
+    {
+     "segFrom": 0,
+     "segTo": 267
+    }
+   ],
+   "segmentCount": 267,
+   "durationSec": 2670,
+   "wmSlotStride": 6,
+   "wmSlotCount": 44,
+   "sections": [
+    {
+     "sortNo": 1,
+     "srcSortNo": 1,
+     "title": "开场：过一遍课程大纲，跑成品动效站",
+     "summary": "讲今天的六个章节，打开课程大纲.md 过一遍全天路线，跑起自己做的动效站看效果。",
+     "kind": "LECTURE",
+     "startSec": 0,
+     "endSec": 390
+    },
+    {
+     "sortNo": 2,
+     "srcSortNo": 2,
+     "title": "工具一直在变，工作流会留下：我的多 AI 分工",
+     "summary": "回顾 ChatGPT 到 Cursor 的工具变化，讲自己在元宝、DeepSeek、豆包之间怎么分工。",
+     "kind": "LECTURE",
+     "startSec": 390,
+     "endSec": 1060
+    },
+    {
+     "sortNo": 3,
+     "srcSortNo": 3,
+     "title": "前端是什么、后端是什么，为什么做全栈",
+     "summary": "用 DeepSeek 官网、WPS 界面定义前端，画前后端协作链路，说明今天只做 Web App。",
+     "kind": "LECTURE",
+     "startSec": 1060,
+     "endSec": 1640
+    },
+    {
+     "sortNo": 4,
+     "srcSortNo": 4,
+     "title": "前端三剑客：按 F12 拆 DeepSeek 官网",
+     "summary": "讲 HTML、CSS、JS 各管什么，再按 F12 打开调试工具逐个看四个面板。",
+     "kind": "DEMO",
+     "startSec": 1640,
+     "endSec": 2080
+    },
+    {
+     "sortNo": 5,
+     "srcSortNo": 5,
+     "title": "2026 年选工具：IDE 形态还是 CLI 形态",
+     "summary": "对比 AI IDE 与命令行里的 Claude Code，讲沙箱，说明 Node 是什么。",
+     "kind": "LECTURE",
+     "startSec": 2080,
+     "endSec": 2420
+    },
+    {
+     "sortNo": 6,
+     "srcSortNo": 6,
+     "title": "课间答疑：学员追问大模型原理，重述本节路线",
+     "summary": "学员当场追问大模型体系结构与神经网络原理，讲师答复之后课程再安排，并把本节要装的软件、要讲的指令复述一遍。",
+     "kind": "QA",
+     "startSec": 2420,
+     "endSec": 2670
+    }
+   ]
+  },
+  {
+   "lessonNo": 2,
+   "chapterId": 1,
+   "lid": "L2",
+   "wmBitBase": 0,
+   "wmBitOffset": 44,
+   "wmBitEnd": 92,
+   "title": "第 2 讲 · 装 Node 与 Claude Code，做出第一个网页",
+   "summary": "镜像源、Node、终端够用的三条命令与 npm，装好 Claude Code 接上 DeepSeek，写好第一条提示词并当场做出一版个人主页。",
+   "sortNo": 20,
+   "hlsKey": "fde/l2",
+   "blocks": [
+    {
+     "segFrom": 267,
+     "segTo": 554
+    }
+   ],
+   "segmentCount": 287,
+   "durationSec": 2870,
+   "wmSlotStride": 6,
+   "wmSlotCount": 48,
+   "sections": [
+    {
+     "sortNo": 1,
+     "srcSortNo": 7,
+     "title": "镜像源与问 AI 要安装步骤，现场装 Node",
+     "summary": "讲镜像源是什么，在元宝里问出 Node 安装步骤，留时间让大家装到 node -v 有版本号。",
+     "kind": "HANDSON",
+     "startSec": 0,
+     "endSec": 720
+    },
+    {
+     "sortNo": 2,
+     "srcSortNo": 8,
+     "title": "终端够用的 ls/cd/pwd，npm 记三条命令",
+     "summary": "放大终端演示 ls、cd、pwd 并与图形界面对照，再讲依赖是什么和 npm 的三条命令。",
+     "kind": "LECTURE",
+     "startSec": 720,
+     "endSec": 1000
+    },
+    {
+     "sortNo": 3,
+     "srcSortNo": 9,
+     "title": "装 Claude Code 并接上 DeepSeek",
+     "summary": "用 CC Switch 一键配好 API；它是代码智能体不是模型，Windows 别装 C 盘、别用中文路径。",
+     "kind": "HANDSON",
+     "startSec": 1000,
+     "endSec": 1660
+    },
+    {
+     "sortNo": 4,
+     "srcSortNo": 10,
+     "title": "进工作目录跑通 claude，写好一条提示词",
+     "summary": "cd 进工作目录输入 claude 验证配置，对比坏提示词与好提示词，讲报错怎么分流。",
+     "kind": "LECTURE",
+     "startSec": 1660,
+     "endSec": 2130
+    },
+    {
+     "sortNo": 5,
+     "srcSortNo": 11,
+     "title": "实操一：Claude Code 做个人主页并验收",
+     "summary": "先讲 plan 模式，再发提示词生成三剑客页面，按五条标准验收，当场追加第六条「满足产品经理的需求」。",
+     "kind": "HANDSON",
+     "startSec": 2130,
+     "endSec": 2870
+    }
+   ]
+  },
+  {
+   "lessonNo": 3,
+   "chapterId": 1,
+   "lid": "L2",
+   "wmBitBase": 0,
+   "wmBitOffset": 92,
+   "wmBitEnd": 138,
+   "title": "第 3 讲 · 框架与组件化：vite、v0.dev 与 plan 模式重构",
+   "summary": "用 vite 建 Vue 和 React，拿 v0.dev 对话生成页面，做一版 Todo 网页，再用 plan 模式把它重构成 React 项目并逐项验收。",
+   "sortNo": 30,
+   "hlsKey": "fde/l2",
+   "blocks": [
+    {
+     "segFrom": 554,
+     "segTo": 730
+    },
+    {
+     "segFrom": 766,
+     "segTo": 829
+    }
+   ],
+   "segmentCount": 239,
+   "durationSec": 2390,
+   "wmSlotStride": 6,
+   "wmSlotCount": 40,
+   "sections": [
+    {
+     "sortNo": 1,
+     "srcSortNo": 12,
+     "title": "框架与组件化：vite 建 Vue 和 React",
+     "summary": "用造车比方讲框架和组件化，现场 npm create vite 建 Vue、React 两个项目看目录。",
+     "kind": "DEMO",
+     "startSec": 0,
+     "endSec": 480
+    },
+    {
+     "sortNo": 2,
+     "srcSortNo": 13,
+     "title": "v0.dev：对话生成页面，design 模式改稿",
+     "summary": "打开 v0.dev 对话生成个人主页，演示 design 模式点选改字号颜色，再翻模板库。",
+     "kind": "DEMO",
+     "startSec": 480,
+     "endSec": 840
+    },
+    {
+     "sortNo": 3,
+     "srcSortNo": 14,
+     "title": "实操二：做 Todo 网页与 bash mode",
+     "summary": "新建 test4 生成 todo.html，讲默认模式的权限弹窗，用 bash mode 打开。",
+     "kind": "HANDSON",
+     "startSec": 840,
+     "endSec": 1310
+    },
+    {
+     "sortNo": 4,
+     "srcSortNo": 15,
+     "title": "用 plan 模式把 Todo 应用重构为 React 项目",
+     "summary": "切 plan 模式发重构需求，补优先级需求后再放行，演示最大权限模式并当场终止。",
+     "kind": "DEMO",
+     "startSec": 1310,
+     "endSec": 1760
+    },
+    {
+     "sortNo": 5,
+     "srcSortNo": 17,
+     "title": "验收重构：npm run dev、/tasks 与 /rewind",
+     "summary": "对照计划逐项核验，用 /resume 找回旧会话；rewind 退不掉 bash 建的框架文件。",
+     "kind": "DEMO",
+     "startSec": 1760,
+     "endSec": 2390
+    }
+   ]
+  },
+  {
+   "lessonNo": 4,
+   "chapterId": 1,
+   "lid": "L2",
+   "wmBitBase": 0,
+   "wmBitOffset": 138,
+   "wmBitEnd": 183,
+   "title": "第 4 讲 · 上下文、hooks 与 skill：把设计能力装进 AI",
+   "summary": "上下文窗口、/compact 与 CLAUDE.md，五个 hooks 与 subagent，skill 是一份写给 AI 的说明书，装上 frontend-design 后重做一遍 Todo。",
+   "sortNo": 40,
+   "hlsKey": "fde/l2",
+   "blocks": [
+    {
+     "segFrom": 829,
+     "segTo": 1098
+    }
+   ],
+   "segmentCount": 269,
+   "durationSec": 2689,
+   "wmSlotStride": 6,
+   "wmSlotCount": 45,
+   "sections": [
+    {
+     "sortNo": 1,
+     "srcSortNo": 18,
+     "title": "上下文窗口、/compact 与 CLAUDE.md",
+     "summary": "白板画上下文窗口讲为什么会胡言乱语，演示 /compact，再 /init 生成并补三条项目规则。",
+     "kind": "LECTURE",
+     "startSec": 0,
+     "endSec": 470
+    },
+    {
+     "sortNo": 2,
+     "srcSortNo": 19,
+     "title": "hooks 五个钩子点与 subagent 主子进程",
+     "summary": "打开 /hooks 看五个钩子点，用 /agents 现场建一个 code-reviewer，白板画主子进程。",
+     "kind": "LECTURE",
+     "startSec": 470,
+     "endSec": 770
+    },
+    {
+     "sortNo": 3,
+     "srcSortNo": 20,
+     "title": "skill 是什么：一份写给 AI 的说明书",
+     "summary": "打开官方 skills 仓库看 SKILL.md 怎么写，辨析 skill 与提示词、subagent。",
+     "kind": "LECTURE",
+     "startSec": 770,
+     "endSec": 1200
+    },
+    {
+     "sortNo": 4,
+     "srcSortNo": 21,
+     "title": "装 frontend-design 后重做 Todo",
+     "summary": "在 /plugin 里装好插件，用同一条提示词重做 Todo，与之前那版并排对比。",
+     "kind": "DEMO",
+     "startSec": 1200,
+     "endSec": 1710
+    },
+    {
+     "sortNo": 5,
+     "srcSortNo": 22,
+     "title": "去哪找设计 skill，收尾总结与大作业",
+     "summary": "翻 getdesign.md 等几个资源站，讲 AI 写代码常踩的五个坑，布置智能客服官网大作业。",
+     "kind": "LECTURE",
+     "startSec": 1710,
+     "endSec": 2120
+    },
+    {
+     "sortNo": 6,
+     "srcSortNo": 23,
+     "title": "加餐：拿私藏提示词生成一版官网",
+     "summary": "粘一条私藏提示词生成官网并在本地预览，再展示 Google Stitch，预告周四要讲的知识库 RAG。",
+     "kind": "DEMO",
+     "startSec": 2120,
+     "endSec": 2510
+    },
+    {
+     "sortNo": 7,
+     "srcSortNo": 24,
+     "title": "助教收尾：两周课程体系与后续安排",
+     "summary": "助教讲两周排课：明天后端、周四 RAG、周五云部署、第八天大作业展示、下周二拆 Claude Code 底层。",
+     "kind": "LECTURE",
+     "startSec": 2510,
+     "endSec": 2689
+    }
+   ]
+  },
+  {
+   "lessonNo": 5,
+   "chapterId": 2,
+   "lid": "L3",
+   "wmBitBase": 183,
+   "wmBitOffset": 196,
+   "wmBitEnd": 243,
+   "title": "第 5 讲 · 后端做的是什么：一次请求的全链路与三张核心表",
+   "summary": "四大鸿沟与 Web coding 五个流派，L0 到 L4 的架构层级，一次请求怎样穿过后端，用 F12 拆开一次登录，再讲状态码、SSE 与数据库的三张核心表。",
+   "sortNo": 50,
+   "hlsKey": "fde/l3",
+   "blocks": [
+    {
+     "segFrom": 78,
+     "segTo": 359
+    }
+   ],
+   "segmentCount": 281,
+   "durationSec": 2810,
+   "wmSlotStride": 6,
+   "wmSlotCount": 47,
+   "sections": [
+    {
+     "sortNo": 1,
+     "srcSortNo": 2,
+     "title": "开场定题、四大鸿沟与 Web coding 五个流派",
+     "summary": "交接开场后给出本讲任务，讲四大鸿沟、完整请求链路和 Web coding 五个流派。",
+     "kind": "LECTURE",
+     "startSec": 0,
+     "endSec": 540
+    },
+    {
+     "sortNo": 2,
+     "srcSortNo": 3,
+     "title": "L0 到 L4：从纯前端原型走到大厂平台架构",
+     "summary": "对着架构演进页，从纯前端原型一路讲到负载均衡、专库专用和大厂平台。",
+     "kind": "LECTURE",
+     "startSec": 540,
+     "endSec": 920
+    },
+    {
+     "sortNo": 3,
+     "srcSortNo": 4,
+     "title": "一次请求怎样穿过后端：端口、四种交互与 HTTP 四部分",
+     "summary": "讲八步后端管线、IP 与端口，以及四种交互方式和 HTTP 的四个组成部分。",
+     "kind": "LECTURE",
+     "startSec": 920,
+     "endSec": 1420
+    },
+    {
+     "sortNo": 4,
+     "srcSortNo": 5,
+     "title": "用 F12 拆开一次登录请求，再看线上站点的后端请求",
+     "summary": "打开昨天的前端，在 Network 面板里逐项指认 method、URL、header 与 body。",
+     "kind": "DEMO",
+     "startSec": 1420,
+     "endSec": 1920
+    },
+    {
+     "sortNo": 5,
+     "srcSortNo": 6,
+     "title": "状态码与后端管线复述，一条客服消息的闭环和 SSE",
+     "summary": "讲 200/404/500 三个状态码，再把一条客服消息的闭环和 SSE 逐字推送走一遍。",
+     "kind": "LECTURE",
+     "startSec": 1920,
+     "endSec": 2170
+    },
+    {
+     "sortNo": 6,
+     "srcSortNo": 7,
+     "title": "在 Swagger UI（/docs）里调注册接口，再导进 Apifox",
+     "summary": "用 FastAPI 自带的 Swagger UI 发注册请求，看成功与失败两条路径，再导入 Apifox。",
+     "kind": "DEMO",
+     "startSec": 2170,
+     "endSec": 2520
+    },
+    {
+     "sortNo": 7,
+     "srcSortNo": 8,
+     "title": "数据库的库表字段、三张核心表与后端技术栈选型",
+     "summary": "讲库、表、字段、记录与三张核心表，再对比三套技术栈定下本课的技术栈。",
+     "kind": "LECTURE",
+     "startSec": 2520,
+     "endSec": 2810
+    }
+   ]
+  },
+  {
+   "lessonNo": 6,
+   "chapterId": 2,
+   "lid": "L3",
+   "wmBitBase": 183,
+   "wmBitOffset": 243,
+   "wmBitEnd": 289,
+   "title": "第 6 讲 · 装 uv、建库建账号，用 plan 模式发后端规划",
+   "summary": "一句提示词装好 uv，建专用库和专用账号并用 Navicat 连上，在 plan 模式下发出后端规划，再逐条审 AI 给的方案与它的五类假完成。",
+   "sortNo": 60,
+   "hlsKey": "fde/l3",
+   "blocks": [
+    {
+     "segFrom": 359,
+     "segTo": 381
+    },
+    {
+     "segFrom": 403,
+     "segTo": 637
+    }
+   ],
+   "segmentCount": 256,
+   "durationSec": 2560,
+   "wmSlotStride": 6,
+   "wmSlotCount": 42,
+   "sections": [
+    {
+     "sortNo": 1,
+     "srcSortNo": 9,
+     "title": "一句提示词装 uv，带看三个要装的软件下载页",
+     "summary": "给出装 uv 的提示词，再带看 Navicat、Apifox、MySQL 三个下载页，随后课间休息。",
+     "kind": "DEMO",
+     "startSec": 0,
+     "endSec": 220
+    },
+    {
+     "sortNo": 2,
+     "srcSortNo": 10,
+     "title": "建专用库和专用账号的提示词，再用 Navicat 连上",
+     "summary": "讲清为什么不能把 root 交给 AI，库和账号已提前建好，课上只在 Navicat 里新建连接看库表。",
+     "kind": "DEMO",
+     "startSec": 220,
+     "endSec": 510
+    },
+    {
+     "sortNo": 3,
+     "srcSortNo": 11,
+     "title": "cd 进项目、清掉旧后端，在 plan 模式下发后端规划",
+     "summary": "在访达取真实路径 cd 进项目，删掉旧后端，用 plan 模式发出后端开发规划。",
+     "kind": "DEMO",
+     "startSec": 510,
+     "endSec": 930
+    },
+    {
+     "sortNo": 4,
+     "srcSortNo": 12,
+     "title": "等 AI 调研的空档里讲环境变量与 agno 框架",
+     "summary": "AI 并行跑前端分析与 agno 调研，讲师转去讲课件上环境变量的几个层级。",
+     "kind": "LECTURE",
+     "startSec": 930,
+     "endSec": 1320
+    },
+    {
+     "sortNo": 5,
+     "srcSortNo": 13,
+     "title": "审 AI 给的方案：三个关键决策与目录对着管线走一遍",
+     "summary": "现场回答 AI 反问的三个问题，再把 backend 目录逐项对到请求管线上。",
+     "kind": "LECTURE",
+     "startSec": 1320,
+     "endSec": 1780
+    },
+    {
+     "sortNo": 6,
+     "srcSortNo": 14,
+     "title": "AI 的五类假完成：假后端、假持久化、mock 数据、假登录与假数据库",
+     "summary": "对着课件讲 AI 常见的五类假完成：内存冒充数据库、存浏览器本地、固定模板、写死用户名、表单假存。",
+     "kind": "LECTURE",
+     "startSec": 1780,
+     "endSec": 2030
+    },
+    {
+     "sortNo": 7,
+     "srcSortNo": 15,
+     "title": "回看昨天的前端 skill 与 DESIGN.md，并建专用模型 Key",
+     "summary": "回放昨天前端 skill 的反问过程，讲 DESIGN.md 的作用，并到开放平台建专用 Key。",
+     "kind": "LECTURE",
+     "startSec": 2030,
+     "endSec": 2560
+    }
+   ]
+  },
+  {
+   "lessonNo": 7,
+   "chapterId": 2,
+   "lid": "L3",
+   "wmBitBase": 183,
+   "wmBitOffset": 289,
+   "wmBitEnd": 331,
+   "title": "第 7 讲 · 联调：定位注册 500，逐行讲 .env 与怎么描述 bug",
+   "summary": "AI 连错数据库实例引出幻觉与吞异常，流式响应的五类故障，现场把注册 500 定位到返回 201，导 Apifox 存样例，逐行讲 .env 与模型接入三要素。",
+   "sortNo": 70,
+   "hlsKey": "fde/l3",
+   "blocks": [
+    {
+     "segFrom": 637,
+     "segTo": 887
+    }
+   ],
+   "segmentCount": 250,
+   "durationSec": 2500,
+   "wmSlotStride": 6,
+   "wmSlotCount": 42,
+   "sections": [
+    {
+     "sortNo": 1,
+     "srcSortNo": 16,
+     "title": "AI 连错了数据库实例，接着讲幻觉、吞异常与数据库故障",
+     "summary": "现场发现 AI 连到了别的 MySQL 实例，接着讲编造包、吞异常和数据库常见故障。",
+     "kind": "LECTURE",
+     "startSec": 0,
+     "endSec": 450
+    },
+    {
+     "sortNo": 2,
+     "srcSortNo": 17,
+     "title": "流式响应的五类故障与高质量提示词的写法",
+     "summary": "讲流式响应的五类故障和重放攻击，再给出角色—约束—计划—校验—验收的提示词结构。",
+     "kind": "LECTURE",
+     "startSec": 450,
+     "endSec": 720
+    },
+    {
+     "sortNo": 3,
+     "srcSortNo": 18,
+     "title": "改用昨天的成品起前后端，现场定位注册 500 到返回 201",
+     "summary": "改用昨天的成品起前后端两个终端；注册报 500，从 F12 看到日志再贴给 AI 修好。",
+     "kind": "DEMO",
+     "startSec": 720,
+     "endSec": 1150
+    },
+    {
+     "sortNo": 4,
+     "srcSortNo": 19,
+     "title": "把 /docs 导进 Apifox，用登录接口存一个成功样例",
+     "summary": "导入 OpenAPI 后得到九个接口和十三个数据模型，登录接口先发错账号再发对账号，把成功那次存成样例。",
+     "kind": "DEMO",
+     "startSec": 1150,
+     "endSec": 1580
+    },
+    {
+     "sortNo": 5,
+     "srcSortNo": 20,
+     "title": "逐行讲 .env，模型接入要的 base_url、模型名和 Key",
+     "summary": "逐行讲 .env 里的各项配置，演示到模型文档里找 base_url 和模型名，并讲 JWT 密钥。",
+     "kind": "LECTURE",
+     "startSec": 1580,
+     "endSec": 1950
+    },
+    {
+     "sortNo": 6,
+     "srcSortNo": 21,
+     "title": "对话没渲染出来：怎么把 bug 描述准了再交给 AI",
+     "summary": "对话页不渲染，讲师按链路判断是前端问题并示范写 bug 描述，顺带讲 .venv 与作业。",
+     "kind": "DEMO",
+     "startSec": 1950,
+     "endSec": 2500
+    }
+   ]
+  },
+  {
+   "lessonNo": 8,
+   "chapterId": 2,
+   "lid": "L3",
+   "wmBitBase": 183,
+   "wmBitOffset": 331,
+   "wmBitEnd": 375,
+   "title": "第 8 讲 · 多模态改造与验收，安全底线与十个问题",
+   "summary": "从 DeepSeek 换到 GLM 做多模态改造并验收上传图片，回到架构图数八件事，讲身份隔离、密码只存哈希与不该进 Git 的三样东西，最后十个问题逐题作答。",
+   "sortNo": 80,
+   "hlsKey": "fde/l3",
+   "blocks": [
+    {
+     "segFrom": 887,
+     "segTo": 937
+    },
+    {
+     "segFrom": 985,
+     "segTo": 1154
+    }
+   ],
+   "segmentCount": 219,
+   "durationSec": 2189,
+   "wmSlotStride": 6,
+   "wmSlotCount": 36,
+   "sections": [
+    {
+     "sortNo": 1,
+     "srcSortNo": 22,
+     "title": "给 Agent 加多模态：为什么要从 DeepSeek 换成 GLM",
+     "summary": "讲多模态的含义，说明文本模型处理不了图片，改到 GLM 并试着改文档示例。",
+     "kind": "LECTURE",
+     "startSec": 0,
+     "endSec": 370
+    },
+    {
+     "sortNo": 2,
+     "srcSortNo": 23,
+     "title": "改用 GLM-5V-Turbo 做多模态改造，等 AI 改完",
+     "summary": "课上比对了智谱两个模型后改用 GLM-5V-Turbo，把文档链接连同需求丢给 AI，其余时间终端在跑。",
+     "kind": "DEMO",
+     "startSec": 370,
+     "endSec": 500
+    },
+    {
+     "sortNo": 3,
+     "srcSortNo": 24,
+     "title": "验收多模态：上传图片让它分析，再修两个前端 bug",
+     "summary": "展示改造成果：上传图片得到分析；再修两个前端问题，补讲前后端联调的调用链。",
+     "kind": "DEMO",
+     "startSec": 500,
+     "endSec": 1040
+    },
+    {
+     "sortNo": 4,
+     "srcSortNo": 25,
+     "title": "回到架构图数八件事，布置作业并到数据库里验证",
+     "summary": "对着架构图数完八件事，讲作业必做项，再用 Navicat 查到两条消息，重启后端后历史仍在。",
+     "kind": "LECTURE",
+     "startSec": 1040,
+     "endSec": 1350
+    },
+    {
+     "sortNo": 5,
+     "srcSortNo": 26,
+     "title": "身份隔离验收、密码只存哈希与不该进 Git 的三样东西",
+     "summary": "讲身份隔离的四条验收、密码只存哈希，以及不该进 Git 的三类信息与 README。",
+     "kind": "LECTURE",
+     "startSec": 1350,
+     "endSec": 1710
+    },
+    {
+     "sortNo": 6,
+     "srcSortNo": 27,
+     "title": "十个问题逐题作答，并回到代码里逐个指认",
+     "summary": "把课件上的十个问题逐题作答，回到代码里指认，收尾答疑并预告明天的内容。",
+     "kind": "LECTURE",
+     "startSec": 1710,
+     "endSec": 2189
+    }
+   ]
+  },
+  {
+   "lessonNo": 9,
+   "chapterId": 3,
+   "lid": "L4",
+   "wmBitBase": 375,
+   "wmBitOffset": 375,
+   "wmBitEnd": 409,
+   "title": "第 9 讲 · AI 到底是什么：从 y=f(x) 到神经网络",
+   "summary": "把 LLM、Agent、具身智能、token 逐个拆开，从 y=f(x) 讲到符号主义再到连蒙带猜的连接主义，在 3D 可视化网站手写数字，最后把激活函数画成神经网络图。",
+   "sortNo": 90,
+   "hlsKey": "fde/l4",
+   "blocks": [
+    {
+     "segFrom": 0,
+     "segTo": 205
+    }
+   ],
+   "segmentCount": 205,
+   "durationSec": 2050,
+   "wmSlotStride": 6,
+   "wmSlotCount": 34,
+   "sections": [
+    {
+     "sortNo": 1,
+     "srcSortNo": 1,
+     "title": "开场：今天上半场补 AI 原理、下半场讲 RAG",
+     "summary": "说明本讲缘起与一半一半的安排，送出「先动起来，状态自然会跟上」，并播了一段渲染 AI 名词焦虑的短视频。",
+     "kind": "LECTURE",
+     "startSec": 0,
+     "endSec": 430
+    },
+    {
+     "sortNo": 2,
+     "srcSortNo": 2,
+     "title": "LLM、Agent、具身智能、token 逐个拆，再问什么是人工智能",
+     "summary": "逐个解释 LLM、Agent、具身智能、token，再用 AlphaGo、抖音推流引出人工智能的定义。",
+     "kind": "LECTURE",
+     "startSec": 430,
+     "endSec": 820
+    },
+    {
+     "sortNo": 3,
+     "srcSortNo": 3,
+     "title": "从 y=f(x) 到符号主义，再到连蒙带猜的连接主义",
+     "summary": "用勾股定理、F=ma、小狗图片讲符号主义，再讲规则写不清后改用 y=wx+b 从样本猜函数。",
+     "kind": "LECTURE",
+     "startSec": 820,
+     "endSec": 1450
+    },
+    {
+     "sortNo": 4,
+     "srcSortNo": 4,
+     "title": "在 3D 可视化网站手写 9 和 4，再讲激活函数",
+     "summary": "现场在神经网络 3D 可视化页面手写数字并读输出，再用房价散点引出激活函数。",
+     "kind": "DEMO",
+     "startSec": 1450,
+     "endSec": 1700
+    },
+    {
+     "sortNo": 5,
+     "srcSortNo": 5,
+     "title": "激活函数套娃写不下，于是画成神经网络图",
+     "summary": "把多输入多层写成套娃公式，公式太长改画神经网络图，讲神经元、隐藏层与像素输入。",
+     "kind": "LECTURE",
+     "startSec": 1700,
+     "endSec": 2050
+    }
+   ]
+  },
+  {
+   "lessonNo": 10,
+   "chapterId": 3,
+   "lid": "L4",
+   "wmBitBase": 375,
+   "wmBitOffset": 409,
+   "wmBitEnd": 449,
+   "title": "第 10 讲 · 参数、损失与词向量：模型怎么学，词怎么变成数",
+   "summary": "用杭州卖房的数据讲隐藏层与参数，讲损失函数、过拟合与泛化以及 CNN、RNN 各管什么，再把词变成数字：一词一编码、独热编码、词向量与 embedding 矩阵。",
+   "sortNo": 100,
+   "hlsKey": "fde/l4",
+   "blocks": [
+    {
+     "segFrom": 205,
+     "segTo": 314
+    },
+    {
+     "segFrom": 360,
+     "segTo": 447
+    }
+   ],
+   "segmentCount": 196,
+   "durationSec": 1960,
+   "wmSlotStride": 6,
+   "wmSlotCount": 32,
+   "sections": [
+    {
+     "sortNo": 1,
+     "srcSortNo": 6,
+     "title": "隐藏层与前半段回顾，用杭州卖房数据讲参数",
+     "summary": "点明隐藏层与深度学习，回扣符号主义到神经网络的链条，再用三套成交房源数据说明 W、B 就是参数。",
+     "kind": "LECTURE",
+     "startSec": 0,
+     "endSec": 390
+    },
+    {
+     "sortNo": 2,
+     "srcSortNo": 7,
+     "title": "损失函数、过拟合与泛化，CNN 和 RNN 各管什么",
+     "summary": "逐轮换 w、b 旋转直线得出损失函数，再讲过拟合与泛化，末尾点名 CNN、RNN 并收束这一段原理。",
+     "kind": "LECTURE",
+     "startSec": 390,
+     "endSec": 1090
+    },
+    {
+     "sortNo": 3,
+     "srcSortNo": 9,
+     "title": "把词变成数字：一词一编码、独热编码、词向量",
+     "summary": "从「今天天气真」预测下一字讲起，比较一词一编码、独热编码与词向量，讲余弦点积衡量语义远近。",
+     "kind": "LECTURE",
+     "startSec": 1090,
+     "endSec": 1690
+    },
+    {
+     "sortNo": 4,
+     "srcSortNo": 10,
+     "title": "embedding 模型就是一个词向量矩阵",
+     "summary": "讲一提到 model 就是训练好的函数，新词过词向量矩阵输出向量，并小结语言向量化到序列模型这条线。",
+     "kind": "LECTURE",
+     "startSec": 1690,
+     "endSec": 1960
+    }
+   ]
+  },
+  {
+   "lessonNo": 11,
+   "chapterId": 3,
+   "lid": "L4",
+   "wmBitBase": 375,
+   "wmBitOffset": 449,
+   "wmBitEnd": 489,
+   "title": "第 11 讲 · 大模型大在哪：Transformer、对齐、算力与微调",
+   "summary": "参数量、下一个词预测与涌现，Transformer 与预训练，对齐怎么把基座模型变成聊天模型，训练成本、开源闭源与数据出域，以及微调和本地部署的显存怎么估。",
+   "sortNo": 110,
+   "hlsKey": "fde/l4",
+   "blocks": [
+    {
+     "segFrom": 447,
+     "segTo": 685
+    }
+   ],
+   "segmentCount": 238,
+   "durationSec": 2380,
+   "wmSlotStride": 6,
+   "wmSlotCount": 40,
+   "sections": [
+    {
+     "sortNo": 1,
+     "srcSortNo": 11,
+     "title": "LLM 大在哪：参数量、下一个词预测与涌现",
+     "summary": "把 LLM 拆成极大的语言神经网络，讲 GPT-3 的一千七百五十亿个参数，点出模型是在算概率。",
+     "kind": "LECTURE",
+     "startSec": 0,
+     "endSec": 320
+    },
+    {
+     "sortNo": 2,
+     "srcSortNo": 12,
+     "title": "Transformer 与预训练，顺带讲验证码点红绿灯",
+     "summary": "讲注意力机制与预训练怎么得到基座模型，并说验证码点红绿灯其实是在做数据标注众包。",
+     "kind": "LECTURE",
+     "startSec": 320,
+     "endSec": 640
+    },
+    {
+     "sortNo": 3,
+     "srcSortNo": 13,
+     "title": "对齐把基座模型变成聊天模型，再讲算力",
+     "summary": "讲基座模型说话没人味要做 alignment，再从显卡、集群、电力、散热串起算力，并区分训练与推理。",
+     "kind": "LECTURE",
+     "startSec": 640,
+     "endSec": 1110
+    },
+    {
+     "sortNo": 4,
+     "srcSortNo": 14,
+     "title": "训练成本、幻方量化的故事，开源闭源与数据出域",
+     "summary": "讲从零训基座为何贵，插播 DeepSeek 母公司幻方量化用炒股的机器训模型的故事，再比开源闭源与数据出域。",
+     "kind": "LECTURE",
+     "startSec": 1110,
+     "endSec": 1710
+    },
+    {
+     "sortNo": 5,
+     "srcSortNo": 15,
+     "title": "微调 fine-tuning 与本地部署：显存怎么估",
+     "summary": "讲通才怎么变专才与毛坯房精装修的比喻，再算 7B、13B、70B 对应显存，区分消费级与生产级显卡。",
+     "kind": "LECTURE",
+     "startSec": 1710,
+     "endSec": 2380
+    }
+   ]
+  },
+  {
+   "lessonNo": 12,
+   "chapterId": 3,
+   "lid": "L4",
+   "wmBitBase": 375,
+   "wmBitOffset": 500,
+   "wmBitEnd": 545,
+   "title": "第 12 讲 · RAG：双链路、标准五步与三个优化点",
+   "summary": "幻觉与开卷考试，RAG 离线切块入库、在线检索拼上下文的双链路与标准五步，向量数据库与传统数据库的区别，query 改写、BM25 与重排序，以及 chunk 怎么切。",
+   "sortNo": 120,
+   "hlsKey": "fde/l4",
+   "blocks": [
+    {
+     "segFrom": 751,
+     "segTo": 1021
+    }
+   ],
+   "segmentCount": 270,
+   "durationSec": 2694,
+   "wmSlotStride": 6,
+   "wmSlotCount": 45,
+   "sections": [
+    {
+     "sortNo": 1,
+     "srcSortNo": 17,
+     "title": "幻觉是什么，web search 与 RAG 的开卷考试",
+     "summary": "讲幻觉与知识截止日期，先给 web search 联网搜索一条路，再把 RAG 说成先查资料再生成答案。",
+     "kind": "LECTURE",
+     "startSec": 0,
+     "endSec": 280
+    },
+    {
+     "sortNo": 2,
+     "srcSortNo": 18,
+     "title": "RAG 双链路：离线切块入库，在线检索拼上下文",
+     "summary": "拆离线链路的解析、清洗切块、向量化入库，再拆在线链路的问题向量化、检索、重排与拼进 Prompt。",
+     "kind": "LECTURE",
+     "startSec": 280,
+     "endSec": 700
+    },
+    {
+     "sortNo": 3,
+     "srcSortNo": 19,
+     "title": "RAG 标准五步，向量数据库和传统数据库的区别",
+     "summary": "归成加载、切块、入库、检索、生成五步，现场查 chunk 的中文释义并在一篇文档上比划切块。",
+     "kind": "DEMO",
+     "startSec": 700,
+     "endSec": 1030
+    },
+    {
+     "sortNo": 4,
+     "srcSortNo": 20,
+     "title": "RAG 三个优化点：query 改写、BM25、重排序",
+     "summary": "在架构图上逐个标出可优化位，再讲把泛问题扩成多个子问题、关键词与向量混合打分、召回后重排留前几条。",
+     "kind": "LECTURE",
+     "startSec": 1030,
+     "endSec": 1450
+    },
+    {
+     "sortNo": 5,
+     "srcSortNo": 21,
+     "title": "chunk 怎么切：按字数、段落、页、章节",
+     "summary": "讲块太大检索不准、太小语义不全，给出四种切法，再讲召回时连相邻块一起取、给每块加标题。",
+     "kind": "LECTURE",
+     "startSec": 1450,
+     "endSec": 1700
+    },
+    {
+     "sortNo": 6,
+     "srcSortNo": 22,
+     "title": "文件先统一转 Markdown，现场敲一遍语法",
+     "summary": "现场新建文档敲标题、列表、代码块和表格，对比 Word 排版；末尾讲扫描件走 OCR，实操留作课后作业。",
+     "kind": "DEMO",
+     "startSec": 1700,
+     "endSec": 2070
+    },
+    {
+     "sortNo": 7,
+     "srcSortNo": 23,
+     "title": "智能体先导与 AI 术语表串讲，收尾回顾主线",
+     "summary": "把智能体讲成模型加工具、记忆、规划，预告第 7 讲用 agno 搭 RAG 智能体，再串讲 AI 术语并收尾。",
+     "kind": "LECTURE",
+     "startSec": 2070,
+     "endSec": 2694
+    }
+   ]
+  },
+  {
+   "lessonNo": 13,
+   "chapterId": 4,
+   "lid": "L7",
+   "wmBitBase": 545,
+   "wmBitOffset": 551,
+   "wmBitEnd": 583,
+   "title": "第 13 讲 · 智能体从哪来：造轮子、落地场景与提示词参数",
+   "summary": "从裸调 DeepSeek API 说起什么是造轮子，智能体能落在客服、财税、销售、家电维修哪些场景，再讲提示词工程是什么以及 temperature 与 top_p 怎么调。",
+   "sortNo": 130,
+   "hlsKey": "fde/l7",
+   "blocks": [
+    {
+     "segFrom": 37,
+     "segTo": 228
+    }
+   ],
+   "segmentCount": 191,
+   "durationSec": 1910,
+   "wmSlotStride": 6,
+   "wmSlotCount": 32,
+   "sections": [
+    {
+     "sortNo": 1,
+     "srcSortNo": 1,
+     "title": "开场与前情回顾：从第 2、4 讲串到 AI 三段脉络",
+     "summary": "翻回第 2 讲、第 4 讲课件回顾，再按提示词工程、上下文工程、harness 梳理三段脉络。",
+     "kind": "LECTURE",
+     "startSec": 0,
+     "endSec": 370
+    },
+    {
+     "sortNo": 2,
+     "srcSortNo": 2,
+     "title": "从裸调 DeepSeek API 说起：什么是造轮子",
+     "summary": "对着 DeepSeek 文档里十几行裸调代码讲造轮子，并给出今天的三小时路线。",
+     "kind": "LECTURE",
+     "startSec": 370,
+     "endSec": 760
+    },
+    {
+     "sortNo": 3,
+     "srcSortNo": 3,
+     "title": "智能体能落在哪些场景：客服、财税、销售、家电维修",
+     "summary": "先留 15 秒思考，再逐个讲专属客服、财税政策问答、销售域数据底座、家电维修问诊。",
+     "kind": "LECTURE",
+     "startSec": 760,
+     "endSec": 1230
+    },
+    {
+     "sortNo": 4,
+     "srcSortNo": 4,
+     "title": "提示词工程是什么，temperature 与 top_p 怎么调",
+     "summary": "先讲提示词为什么影响智能体稳定性，再对着示例代码拆 temperature 与 top_p。",
+     "kind": "LECTURE",
+     "startSec": 1230,
+     "endSec": 1910
+    }
+   ]
+  },
+  {
+   "lessonNo": 14,
+   "chapterId": 4,
+   "lid": "L7",
+   "wmBitBase": 545,
+   "wmBitOffset": 583,
+   "wmBitEnd": 627,
+   "title": "第 14 讲 · 把提示词写对：四要素、推理范式与工具调用",
+   "summary": "Max Length、Stop Sequences 与两个 penalty，提示词的指令、上下文、输入数据、输出格式四要素，zero-shot 到思维树，再讲模型到底怎么调工具、Agent 和 Chatbot 差在哪。",
+   "sortNo": 140,
+   "hlsKey": "fde/l7",
+   "blocks": [
+    {
+     "segFrom": 228,
+     "segTo": 392
+    },
+    {
+     "segFrom": 443,
+     "segTo": 493
+    }
+   ],
+   "segmentCount": 214,
+   "durationSec": 2140,
+   "wmSlotStride": 6,
+   "wmSlotCount": 35,
+   "sections": [
+    {
+     "sortNo": 1,
+     "srcSortNo": 5,
+     "title": "Max Length、Stop Sequences 与 frequency / presence penalty",
+     "summary": "结合上下文窗口讲输出长度与成本，再分清按出现次数罚和对所有重复等量罚的差别。",
+     "kind": "LECTURE",
+     "startSec": 0,
+     "endSec": 400
+    },
+    {
+     "sortNo": 2,
+     "srcSortNo": 6,
+     "title": "提示词四要素：指令、上下文、输入数据、输出格式",
+     "summary": "拆四要素并对照好坏提示词，在元宝对话框现场试了两条格式指令。",
+     "kind": "LECTURE",
+     "startSec": 400,
+     "endSec": 870
+    },
+    {
+     "sortNo": 3,
+     "srcSortNo": 7,
+     "title": "零样本到思维树：zero-shot、few-shot、CoT、ToT",
+     "summary": "按零样本、少样本、思维链、思维树往下讲，用 5368+4392 说明模型为什么会算错。",
+     "kind": "LECTURE",
+     "startSec": 870,
+     "endSec": 1330
+    },
+    {
+     "sortNo": 4,
+     "srcSortNo": 8,
+     "title": "RAG 快速回顾，再把 ReAct 拆成推理加行动",
+     "summary": "回顾文档向量化与相似度召回，讲思考、调工具、观察、回答这个循环。",
+     "kind": "LECTURE",
+     "startSec": 1330,
+     "endSec": 1640
+    },
+    {
+     "sortNo": 5,
+     "srcSortNo": 10,
+     "title": "模型到底怎么调工具，智能体（Agent）和 Chatbot 差在哪",
+     "summary": "口述工具描述发给模型、代码执行、结果回传的链路，并列智能体模块与风险。",
+     "kind": "LECTURE",
+     "startSec": 1640,
+     "endSec": 2140
+    }
+   ]
+  },
+  {
+   "lessonNo": 15,
+   "chapterId": 4,
+   "lid": "L7",
+   "wmBitBase": 545,
+   "wmBitOffset": 627,
+   "wmBitEnd": 661,
+   "title": "第 15 讲 · 上手 agno：建环境、跑通第一个 Agent 并注册工具",
+   "summary": "框架选型与怎么读官方文档，环境三步取 Key、建环境、pip install agno，课上跑通第一个 Agent 再加 instructions，最后给它注册查订单、加法与取时间三个工具。",
+   "sortNo": 150,
+   "hlsKey": "fde/l7",
+   "blocks": [
+    {
+     "segFrom": 493,
+     "segTo": 698
+    }
+   ],
+   "segmentCount": 205,
+   "durationSec": 2050,
+   "wmSlotStride": 6,
+   "wmSlotCount": 34,
+   "sections": [
+    {
+     "sortNo": 1,
+     "srcSortNo": 11,
+     "title": "框架选型与读官方文档：为什么不再裸调 API",
+     "summary": "讲框架把上下文、记忆、数据库标准化的价值，现场用文档自带的 Ask AI 提问。",
+     "kind": "LECTURE",
+     "startSec": 0,
+     "endSec": 350
+    },
+    {
+     "sortNo": 2,
+     "srcSortNo": 12,
+     "title": "环境三步：取 API Key、建环境、pip install agno",
+     "summary": "在 DeepSeek 开放平台拿 Key，conda 建环境后装 agno；用 uv 也可以，留两分钟动手。",
+     "kind": "HANDSON",
+     "startSec": 350,
+     "endSec": 610
+    },
+    {
+     "sortNo": 3,
+     "srcSortNo": 13,
+     "title": "课上跑通第一个 Agent，再加 instructions",
+     "summary": "先提醒切到装了 agno 的解释器，写几行代码跑通，再加 instructions 重跑。",
+     "kind": "HANDSON",
+     "startSec": 610,
+     "endSec": 1350
+    },
+    {
+     "sortNo": 4,
+     "srcSortNo": 14,
+     "title": "给 Agent 注册工具：查订单、加法、取当前时间",
+     "summary": "照文档注册 lookup_order，手写 sum 与 time_now，再删掉工具做对照。",
+     "kind": "HANDSON",
+     "startSec": 1350,
+     "endSec": 2050
+    }
+   ]
+  },
+  {
+   "lessonNo": 16,
+   "chapterId": 4,
+   "lid": "L7",
+   "wmBitBase": 545,
+   "wmBitOffset": 661,
+   "wmBitEnd": 721,
+   "title": "第 16 讲 · 结构化输出、会话与记忆，AgentOS 与 Team",
+   "summary": "用 output_schema 换掉一段文本，接 SqliteDb 存会话并打开表看存了什么，storage 与 memory 的分界，AgentOS 控制台看 tokens 与耗时，用 trace 定位工具报错，最后讲知识库、Team 与 workflow。",
+   "sortNo": 160,
+   "hlsKey": "fde/l7",
+   "blocks": [
+    {
+     "segFrom": 698,
+     "segTo": 769
+    },
+    {
+     "segFrom": 821,
+     "segTo": 943
+    },
+    {
+     "segFrom": 979,
+     "segTo": 1060
+    }
+   ],
+   "segmentCount": 274,
+   "durationSec": 2732,
+   "wmSlotStride": 6,
+   "wmSlotCount": 45,
+   "sections": [
+    {
+     "sortNo": 1,
+     "srcSortNo": 15,
+     "title": "结构化输出：用 output_schema 换掉一段文本",
+     "summary": "复制官方示例改成 DeepSeek，讲只输出情感、置信度、摘要三个字段。",
+     "kind": "DEMO",
+     "startSec": 0,
+     "endSec": 270
+    },
+    {
+     "sortNo": 2,
+     "srcSortNo": 16,
+     "title": "会话存哪儿：接 SqliteDb 并打开表看存了什么",
+     "summary": "加 db 参数跑一次，打开框架自动建的表，把 session_data 丢进 JSON 解析器。",
+     "kind": "DEMO",
+     "startSec": 270,
+     "endSec": 710
+    },
+    {
+     "sortNo": 3,
+     "srcSortNo": 18,
+     "title": "打开历史上下文开关，storage 与 memory 的分界",
+     "summary": "解开注释掉的两个历史参数，讲 storage 存原样、memory 提取偏好。",
+     "kind": "LECTURE",
+     "startSec": 710,
+     "endSec": 1140
+    },
+    {
+     "sortNo": 4,
+     "srcSortNo": 19,
+     "title": "AgentOS 控制台：起服务，看 tokens 用量与耗时",
+     "summary": "跑起 AgentOS 服务，在控制台提问，metrics 显示 261 tokens 用量与各段耗时。",
+     "kind": "DEMO",
+     "startSec": 1140,
+     "endSec": 1540
+    },
+    {
+     "sortNo": 5,
+     "srcSortNo": 20,
+     "title": "用 trace 看耗时拆解，并靠它定位工具报错",
+     "summary": "补 opentelemetry 依赖后看一次 run 的耗时拆解，再据 trace 定位工具报错。",
+     "kind": "DEMO",
+     "startSec": 1540,
+     "endSec": 1930
+    },
+    {
+     "sortNo": 6,
+     "srcSortNo": 22,
+     "title": "知识库怎么用框架接，Team 和 workflow 分在哪",
+     "summary": "知识库只加 knowledge 开关，框架自动判断何时检索；安全模块未展开，再抄官方示例跑多智能体。",
+     "kind": "DEMO",
+     "startSec": 1930,
+     "endSec": 2360
+    },
+    {
+     "sortNo": 7,
+     "srcSortNo": 23,
+     "title": "Team 的三种模式，以及三讲收尾",
+     "summary": "用研究者加作家的例子讲 coordinator、route、broadcast 三种模式，最后串起三讲收尾。",
+     "kind": "LECTURE",
+     "startSec": 2360,
+     "endSec": 2732
+    }
+   ]
+  }
+ ],
+ "chapters": [
+  {
+   "chapterId": 1,
+   "lid": "L2",
+   "hlsKey": "fde/l2",
+   "segmentCount": 1098,
+   "wmBitBase": 0,
+   "wmSlotCapacity": 183,
+   "chapterDurationSec": 10979
+  },
+  {
+   "chapterId": 2,
+   "lid": "L3",
+   "hlsKey": "fde/l3",
+   "segmentCount": 1154,
+   "wmBitBase": 183,
+   "wmSlotCapacity": 192,
+   "chapterDurationSec": 11539
+  },
+  {
+   "chapterId": 3,
+   "lid": "L4",
+   "hlsKey": "fde/l4",
+   "segmentCount": 1021,
+   "wmBitBase": 375,
+   "wmSlotCapacity": 170,
+   "chapterDurationSec": 10204
+  },
+  {
+   "chapterId": 4,
+   "lid": "L7",
+   "hlsKey": "fde/l7",
+   "segmentCount": 1060,
+   "wmBitBase": 545,
+   "wmSlotCapacity": 176,
+   "chapterDurationSec": 10592
+  }
+ ]
+}

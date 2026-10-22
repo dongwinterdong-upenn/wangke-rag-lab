@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@wangke/shared": ["./src/shared.ts"],
+      "@wangke/shared/tokens.css": ["../../shared/src/tokens.css"]
+    }
+  },
+  "include": ["src"]
+}

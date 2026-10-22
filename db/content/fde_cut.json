@@ -1,0 +1,118 @@
+{
+  "_": [
+    "把四场整录（每场约三小时）重切成 16 讲，每讲 30~48 分钟。",
+    "",
+    "★ 这份文件是【人写的】，build_lessons.py 只做算术。改课程结构改这里。",
+    "",
+    "一条硬规则：切点只落在 fde_outline.json 已有的【节边界】上。",
+    "  分片是 10 秒一片、片片以关键帧起头，所以任何一处节边界都能落到 ±5 秒内的片边界，",
+    "  一个字节的视频都不用重新编码。切点若落在节中间，就得重编码那一片，",
+    "  而重编码会换掉分片内容、作废已发出的水印副本。",
+    "",
+    "drop：整节删掉。判据是转写里显式 (静音) 的占比 —— 见 README「怎么判定死片」一节。",
+    "trim：只改一节的起止。用于「前面是真内容、后面挂着一段等 AI / 课间」的那几节。",
+    "",
+    "删掉的时间不属于任何一讲：分片文件原样留在片库里，只是没有任何播放列表再引用它。",
+    "这样每一讲【自己内部】仍可能有空档（见 build_lessons.py 里 EXT-X-DISCONTINUITY 那段）,",
+    "但绝不会有两讲抢同一片 —— 抢了就是同一个对象在两个人的码字里对应不同的位。"
+  ],
+  "courseId": 1,
+  "chapters": [
+    {
+      "lid": "L2", "chapterId": 1, "hlsKey": "fde/l2",
+      "segmentCount": 1098, "chapterDurationSec": 10979,
+      "drop": [
+        { "sortNo": 16, "why": "整节 93% 是显式静音（Claude 在后台跑重构的等待时间），全长 5m59" }
+      ],
+      "trim": [],
+      "lessons": [
+        { "sections": [1, 2, 3, 4, 5, 6],
+          "title": "Web coding 是什么：前端、后端与工具形态",
+          "summary": "从课程大纲讲起，说清前端和后端各管什么、为什么要做全栈，按 F12 拆一遍真实网站的四个面板，再比 IDE 与命令行两种工具形态。" },
+        { "sections": [7, 8, 9, 10, 11],
+          "title": "装 Node 与 Claude Code，做出第一个网页",
+          "summary": "镜像源、Node、终端够用的三条命令与 npm，装好 Claude Code 接上 DeepSeek，写好第一条提示词并当场做出一版个人主页。" },
+        { "sections": [12, 13, 14, 15, 17],
+          "title": "框架与组件化：vite、v0.dev 与 plan 模式重构",
+          "summary": "用 vite 建 Vue 和 React，拿 v0.dev 对话生成页面，做一版 Todo 网页，再用 plan 模式把它重构成 React 项目并逐项验收。" },
+        { "sections": [18, 19, 20, 21, 22, 23, 24],
+          "title": "上下文、hooks 与 skill：把设计能力装进 AI",
+          "summary": "上下文窗口、/compact 与 CLAUDE.md，五个 hooks 与 subagent，skill 是一份写给 AI 的说明书，装上 frontend-design 后重做一遍 Todo。" }
+      ]
+    },
+    {
+      "lid": "L3", "chapterId": 2, "hlsKey": "fde/l3",
+      "segmentCount": 1154, "chapterDurationSec": 11539,
+      "drop": [
+        { "sortNo": 1, "why": "开课前的等人与自行安装时间，13m04 里 96% 是显式静音；要装的三个软件在第 9 节里又讲了一遍" }
+      ],
+      "trim": [
+        { "sortNo": 9, "endSec": 3814, "why": "63:34 之后是 3m38 课间静音，讲解在此之前已经结束" },
+        { "sortNo": 23, "endSec": 9373, "why": "156:13 之后是 7m55 等 AI 改完的静音；验收在下一节" }
+      ],
+      "lessons": [
+        { "sections": [2, 3, 4, 5, 6, 7, 8],
+          "title": "后端做的是什么：一次请求的全链路与三张核心表",
+          "summary": "四大鸿沟与 Web coding 五个流派，L0 到 L4 的架构层级，一次请求怎样穿过后端，用 F12 拆开一次登录，再讲状态码、SSE 与数据库的三张核心表。" },
+        { "sections": [9, 10, 11, 12, 13, 14, 15],
+          "title": "装 uv、建库建账号，用 plan 模式发后端规划",
+          "summary": "一句提示词装好 uv，建专用库和专用账号并用 Navicat 连上，在 plan 模式下发出后端规划，再逐条审 AI 给的方案与它的五类假完成。" },
+        { "sections": [16, 17, 18, 19, 20, 21],
+          "title": "联调：定位注册 500，逐行讲 .env 与怎么描述 bug",
+          "summary": "AI 连错数据库实例引出幻觉与吞异常，流式响应的五类故障，现场把注册 500 定位到返回 201，导 Apifox 存样例，逐行讲 .env 与模型接入三要素。" },
+        { "sections": [22, 23, 24, 25, 26, 27],
+          "title": "多模态改造与验收，安全底线与十个问题",
+          "summary": "从 DeepSeek 换到 GLM 做多模态改造并验收上传图片，回到架构图数八件事，讲身份隔离、密码只存哈希与不该进 Git 的三样东西，最后十个问题逐题作答。" }
+      ]
+    },
+    {
+      "lid": "L4", "chapterId": 3, "hlsKey": "fde/l4",
+      "segmentCount": 1021, "chapterDurationSec": 10204,
+      "drop": [
+        { "sortNo": 8,  "why": "课间休息，7m40 里 84% 是显式静音" },
+        { "sortNo": 16, "why": "课间休息，11m07 里 97% 是显式静音" }
+      ],
+      "trim": [],
+      "lessons": [
+        { "sections": [1, 2, 3, 4, 5],
+          "title": "AI 到底是什么：从 y=f(x) 到神经网络",
+          "summary": "把 LLM、Agent、具身智能、token 逐个拆开，从 y=f(x) 讲到符号主义再到连蒙带猜的连接主义，在 3D 可视化网站手写数字，最后把激活函数画成神经网络图。" },
+        { "sections": [6, 7, 9, 10],
+          "title": "参数、损失与词向量：模型怎么学，词怎么变成数",
+          "summary": "用杭州卖房的数据讲隐藏层与参数，讲损失函数、过拟合与泛化以及 CNN、RNN 各管什么，再把词变成数字：一词一编码、独热编码、词向量与 embedding 矩阵。" },
+        { "sections": [11, 12, 13, 14, 15],
+          "title": "大模型大在哪：Transformer、对齐、算力与微调",
+          "summary": "参数量、下一个词预测与涌现，Transformer 与预训练，对齐怎么把基座模型变成聊天模型，训练成本、开源闭源与数据出域，以及微调和本地部署的显存怎么估。" },
+        { "sections": [17, 18, 19, 20, 21, 22, 23],
+          "title": "RAG：双链路、标准五步与三个优化点",
+          "summary": "幻觉与开卷考试，RAG 离线切块入库、在线检索拼上下文的双链路与标准五步，向量数据库与传统数据库的区别，query 改写、BM25 与重排序，以及 chunk 怎么切。" }
+      ]
+    },
+    {
+      "lid": "L7", "chapterId": 4, "hlsKey": "fde/l7",
+      "segmentCount": 1060, "chapterDurationSec": 10592,
+      "drop": [
+        { "sortNo": 9,  "why": "课间自行装 Miniconda，8m31 里 84% 是显式静音；conda create 的实际演示在第 12 节" },
+        { "sortNo": 17, "why": "课间自行复现三个示例，8m48 里 86% 是显式静音" },
+        { "sortNo": 21, "why": "留给复现 trace 的时间，5m56 里 96% 是显式静音，且其间讲师端音频中断" }
+      ],
+      "trim": [
+        { "sortNo": 1, "startSec": 370, "why": "开课前 6m10 是助教在讲摄像头与改真名的课堂事务，与课程内容无关；讲师从 6:10 才开讲" }
+      ],
+      "lessons": [
+        { "sections": [1, 2, 3, 4],
+          "title": "智能体从哪来：造轮子、落地场景与提示词参数",
+          "summary": "从裸调 DeepSeek API 说起什么是造轮子，智能体能落在客服、财税、销售、家电维修哪些场景，再讲提示词工程是什么以及 temperature 与 top_p 怎么调。" },
+        { "sections": [5, 6, 7, 8, 10],
+          "title": "把提示词写对：四要素、推理范式与工具调用",
+          "summary": "Max Length、Stop Sequences 与两个 penalty，提示词的指令、上下文、输入数据、输出格式四要素，zero-shot 到思维树，再讲模型到底怎么调工具、Agent 和 Chatbot 差在哪。" },
+        { "sections": [11, 12, 13, 14],
+          "title": "上手 agno：建环境、跑通第一个 Agent 并注册工具",
+          "summary": "框架选型与怎么读官方文档，环境三步取 Key、建环境、pip install agno，课上跑通第一个 Agent 再加 instructions，最后给它注册查订单、加法与取时间三个工具。" },
+        { "sections": [15, 16, 18, 19, 20, 22, 23],
+          "title": "结构化输出、会话与记忆，AgentOS 与 Team",
+          "summary": "用 output_schema 换掉一段文本，接 SqliteDb 存会话并打开表看存了什么，storage 与 memory 的分界，AgentOS 控制台看 tokens 与耗时，用 trace 定位工具报错，最后讲知识库、Team 与 workflow。" }
+      ]
+    }
+  ]
+}
