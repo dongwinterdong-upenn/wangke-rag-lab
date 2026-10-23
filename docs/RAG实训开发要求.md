@@ -187,7 +187,7 @@ B. {选项}
 
 - **Docker 镜像**：按 [本机部署教程](本机部署教程.md) 第二节配置镜像加速地址。自己写的 Dockerfile 用 `python:3.12-slim`，`node:24-slim` 这类官方镜像都能经加速地址拉到。
 - **Python 包**：pip 加 `-i https://mirrors.aliyun.com/pypi/simple/`，写在 Dockerfile 里。
-- **向量模型**：huggingface.co 在国内不通。用 Hugging Face 生态的库时设环境变量 `HF_ENDPOINT=https://hf-mirror.com`，或者从魔搭 modelscope.cn 下载，魔搭更快。
+- **向量模型**：huggingface.co 在国内不通。用 Hugging Face 生态的库时设环境变量 `HF_ENDPOINT=https://hf-mirror.com` 与 `HF_HUB_DISABLE_XET=1`，后一个不设，新版 huggingface_hub 下模型会报 401。也可以从魔搭 modelscope.cn 下载，魔搭更快。
 - **PyTorch**：从 PyPI 直接装的 Linux 版 torch 会带上几 GB 的显卡依赖。只用 CPU 时加 `--index-url https://download.pytorch.org/whl/cpu`，或者选 fastembed 这类基于 ONNX Runtime 的库，不装 torch。
 - **内存**：向量化要分批，批大小 16 左右。一次把全部片段送进模型会超出 Docker 的内存，容器被系统强行结束，退出码是 137。
 
