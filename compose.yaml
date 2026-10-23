@@ -39,6 +39,8 @@ services:
     environment:
       DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY}
       DONGMA_API_TOKEN: ${DONGMA_API_TOKEN}
+      # DeepSeek 现行的模型名。旧名 deepseek-v4-flash 仍可调用，但已由新模型代答。
+      DONGMA_MODEL: deepseek-flash
     volumes:
       - ./dongma/workspace:/app/workspace:ro
     # 只对本机开放，方便评测脚本直接调 /ask。
@@ -85,6 +87,7 @@ services:
       WANGKE_PLAY_CDN_BASE: http://localhost:8080/api/play/seg
       # 交卷后的 AI 测评报告与懂妈共用同一把 DeepSeek 密钥。
       WANGKE_DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY}
+      WANGKE_DEEPSEEK_MODEL: deepseek-flash
       DONGMA_API_BASE: http://dongma:18790
       DONGMA_API_TOKEN: ${DONGMA_API_TOKEN}
     healthcheck:

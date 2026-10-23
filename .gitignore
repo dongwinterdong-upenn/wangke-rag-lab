@@ -16,3 +16,7 @@ __pycache__/
 .vscode/
 .DS_Store
 *.log
+# 向量模型与索引，可重建，不进版本库
+models/
+index/
+.cache/
